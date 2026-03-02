@@ -10,13 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
+# Quick-start development settings - unsuitable for production.
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -26,6 +27,15 @@ SECRET_KEY = 'django-insecure-92%a%p6&&@i9a1!qs+1h*ga0ri@k2-r!7@l8853-bwokryex0v
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# =====================================================================================================
+# Everything in this section was added by our team, not Django.
+# -----------------------------------------------------------------------------------------------------
+
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+# =====================================================================================================
 
 
 # Application definition
@@ -37,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',  # Added by us.
 ]
 
 MIDDLEWARE = [
@@ -54,7 +65,9 @@ ROOT_URLCONF = 'helpy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            TEMPLATE_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
