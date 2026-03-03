@@ -7,7 +7,7 @@ app_name = 'core'
 
 
 urlpatterns = [
-    path('', views.calendar, name='index'),  # WARNING views.calendar will need to be changed to the default view chosen by the user.
+    path('', views.home, name='index'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('calendar/', views.calendar, name='calendar'),

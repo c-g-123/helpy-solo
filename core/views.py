@@ -3,6 +3,10 @@ from django.contrib import auth
 from django.urls import reverse
 
 
+def home(request):
+    return render(request, 'home.html')
+
+
 def login(request):
     return render(request, 'login.html')
 
