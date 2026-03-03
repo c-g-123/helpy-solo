@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'core/home.html')
 
 
 def login(request):
