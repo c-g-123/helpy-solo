@@ -51,3 +51,4 @@ class Resource(models.Model):
 
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
     name = models.CharField(max_length=_MAX_ITEM_NAME_LENGTH)
+    added_date = models.DateTimeField()
