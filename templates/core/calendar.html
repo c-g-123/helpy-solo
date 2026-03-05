@@ -1,43 +1,9 @@
-{% extends 'core/base.html' %}
+{% extends 'core/navigation_base.html' %}
 
-{% block title_block %}
+{% block title %}
     Calendar
 {% endblock %}
 
-{% block body_block %}
+{% block body_after_navigation %}
     <h1>Calendar</h1>
-
-    <div id="content">
-        <div id = "calendar">
-            <div class = "calendar_day">
-                <h1>date</h1>
-                <div>day content </div>
-            </div>
-
-
-            <div class = "calendar_day">
-                <h1>date</h1>
-                <div>day content </div>
-            </div>
-
-
-            <div class = "calendar_day">
-                <h1>date</h1>
-                <div>day content </div>
-            </div>
-
-
-            <div class = "calendar_day">
-                <h1>date</h1>
-                <div>day content </div>
-            </div>
-
-
-            <div class = "calendar_day">
-                <h1>date</h1>
-                <div>day content </div>
-            </div>
-
-            {% comment %} We'll need to write  a js script to populate this{% endcomment %}
-        </div>
 {% endblock %}

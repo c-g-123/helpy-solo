@@ -1,14 +1,10 @@
 {% extends 'core/base.html' %}
 
-{% block title_block %}
+{% block title %}
     Register
 {% endblock %}
 
-{% block nav_bar%}
-    {% comment %}No Nav_bar{% endcomment %}
-{% endblock %}
-
-{% block body_block %}
+{% block body %}
     <h1>Register</h1>
     <form method="post"
           action="{% url 'core:register' %}">
