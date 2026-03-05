@@ -8,4 +8,4 @@ def home(request):
 
 @login_required
 def account(request):
-    return render(request, 'core/account.html')
+    return render(request, 'core/settings.html')
