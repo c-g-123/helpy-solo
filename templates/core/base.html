@@ -1,3 +1,6 @@
+
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -9,7 +12,23 @@
     </title>
 </head>
 <body>
+    {% block nav_bar%}
+            <div id="nav_bar">
+                <button class="left">nav button</button>
+                <button class="left">nav button</button>
+                <button class="left">nav button</button>
+
+                <button class="right">nav button</button>
+                <button class="right">nav button</button>
+            </div>
+    {% endblock%}
+
+
     {% block body_block %}
     {% endblock %}
+
+
+    <img src="{% static 'images/testcat.jpeg' %}">
+
 </body>
 </html>
