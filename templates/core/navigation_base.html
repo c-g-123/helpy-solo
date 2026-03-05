@@ -3,12 +3,12 @@
 {% block body %}
     {% block navigation %}
             <div id="nav_bar">
-                <button class="left">nav button</button>
-                <button class="left">nav button</button>
-                <button class="left">nav button</button>
+                <a class="left"  href="{% url 'core:agenda' %}">agenda</a>
+                <a class="left" href="{% url 'core:calendar' %}">calendar</a>
+                <a class="left" href="{% url 'core:kanban' %}">kanban</button>
+                <a class="left" href="{% url 'core:project' %}">project</a>
 
-                <button class="right">nav button</button>
-                <button class="right">nav button</button>
+                <a class="right">account</a>
             </div>
     {% endblock%}
 

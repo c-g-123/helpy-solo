@@ -29,3 +29,30 @@ body{
 .agenda_day{
     
 }
+
+a{
+    font-size:30px;
+    padding: 5px;
+    margin: 5px;
+    background-color: var(--dark);
+    color: var(--lightest);
+    text-decoration: none;
+}
+
+a:hover{
+    background-color: var(--mid);
+}
+
+a.left{
+    text-align: left;
+
+}
+
+a.right{
+    margin-left:auto;
+}
+
+#nav_bar{
+    display: flex;
+    align-items:center;
+}
