@@ -15,11 +15,14 @@ def register(request):
     password = request.POST.get('password')
     repeat_password = request.POST.get('repeat_password')
 
-    if not _is_username_valid(username):
-        return render_error_message(request, template='core/register.html', error_message='Invalid username.')
+    # Validation
 
-    if not _is_password_valid(password, repeat_password):
-        return render_error_message(request, template='core/register.html', error_message='Invalid password or the repeat does not match.')
+    if not username:
+        return render_error_message(request, template='core/register.html', error_message='Username cannot be empty.')
+    if not password:
+        return render_error_message(request, template='core/register.html', error_message='Password cannot be empty.')
+    if password != repeat_password:
+        return render_error_message(request, template='core/register.html', error_message='Passwords do not match.')
 
     user = User.objects.create_user(username=username, password=password)
 
@@ -39,7 +42,6 @@ def login(request):
 
     if not user:
         return render_error_message(request, template='core/login.html', error_message='Invalid username or password.')
-
     if not user.is_active:
         return render_error_message(request, template='core/login.html', error_message='Your account is disabled.')
 
@@ -51,24 +53,3 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect(reverse('core:home'))
-
-
-def _is_username_valid(username):
-    if not username:
-        return False
-
-    username_already_exists = User.objects.filter(username=username).exists()
-    if username_already_exists:
-        return False
-
-    return True
-
-
-def _is_password_valid(password, repeat_password):
-    if not password:
-        return False
-
-    if password != repeat_password:
-        return False
-
-    return True
