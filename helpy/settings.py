@@ -38,7 +38,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = 'core:login'
 
-STATICFILES_DIRS = [STATIC_DIR, ]
+STATICFILES_DIRS = [STATIC_DIR,]
 
 
 # =====================================================================================================
