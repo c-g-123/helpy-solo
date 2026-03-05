@@ -1,9 +1,32 @@
 {% extends 'core/base.html' %}
 
 {% block title_block %}
-    Login
+    Agenda
 {% endblock %}
 
 {% block body_block %}
     <h1>Agenda</h1>
+
+    <a href="{% url 'core:create_task' %}">Add task</a>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <strong>{{ task.name }}</strong>
+                    <br>
+                    {% if task.description %}
+                        - {{ task.description }}
+                    {% endif %}
+                    <br>
+                    <small>
+                        Project: {{ task.project_id.name }} | Due Date: {{ task.due_date }}
+                    </small>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks yet.</p>
+    {% endif %}
 {% endblock %}
