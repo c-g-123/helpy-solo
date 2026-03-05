@@ -1,32 +1,18 @@
-
 {% load static %}
 
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type ="text/css" href ="{% static 'css/style.css' %}">
     <title>
-        {% block title_block %}
+        {% block title %}
             Helpy
         {% endblock %}
     </title>
 </head>
 <body>
-    {% block nav_bar%}
-            <div id="nav_bar">
-                <button class="left">nav button</button>
-                <button class="left">nav button</button>
-                <button class="left">nav button</button>
-
-                <button class="right">nav button</button>
-                <button class="right">nav button</button>
-            </div>
-    {% endblock%}
-
-
-    {% block body_block %}
+    {% block body %}
     {% endblock %}
-
 </body>
 </html>
