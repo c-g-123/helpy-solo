@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title_block %}
+    Create Task
+{% endblock %}
+
+{% block body_block %}
+    <h1>Create Task</h1>
+
+    <form method="post" action="{% url 'core:create_task' %}">
+        {% csrf_token %}
+        <label>Select Project:</label><br/>
+        <select name="project_id">
+            <option value="">-- Select a project --</option>
+            {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+            {% endfor %}
+        </select><br/>
+
+        <input type="text" name="name" placeholder="Task Name" size="50"/><br/>
+        <input type="text" name="description" placeholder="Description" size="50"/><br/>
+
+        <label>Set Date:</label><br/>
+        <input type="datetime-local" name="set_date"/><br/>
+
+        <label>Due Date:</label><br/>
+        <input type="datetime-local" name="due_date"/><br/>
+
+        {% if error_message %}
+            {{ error_message }}<br/>
+        {% endif %}
+
+        <input type="submit" value="Create Task"/>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{%block title_block %}
+    Create Project
+{% endblock %}
+
+{% block body_block %}
+    <h1>Create Project</h1>
+
+    <form method="post" action="{% url 'core:create_project' %}">
+        {% csrf_token %}
+
+        <input type="text" name="name" placeholder="Project Name" size="50"/><br/>
+
+        {% if error_message %}
+            {{ error_message }}<br/>
+        {% endif %}
+
+        <input type="submit" value="Create Project"/>
+    </form>
+{% endblock %}
