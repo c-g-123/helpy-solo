@@ -1,44 +1,32 @@
 {% extends 'core/base.html' %}
 
 {% block title_block %}
-    agenda
+    Login
 {% endblock %}
 
 {% block body_block %}
     <h1>Agenda</h1>
 
-    <div id="content">
-        <div class="agenda_day">
-            <h1>Date</h1>
-            <ul>
-                <li> to do </li>
-                <li> to do </li>
-                <li> to do </li>
-            </ul>
+    <a href="{% url 'core:create_task' %}">Add task</a>
 
-            <p style = "color:red;"> add task + </p>
-        </div>
-
-                <div class="agenda_day">
-            <h1>Date</h1>
-            <ul>
-                <li> to do </li>
-                <li> to do </li>
-                <li> to do </li>
-            </ul>
-
-            <p style = "color:red;"> add task + </p>
-        </div>
-
-                <div class="agenda_day">
-            <h1>Date</h1>
-            <ul>
-                <li> to do </li>
-                <li> to do </li>
-                <li> to do </li>
-            </ul>
-
-            <p style = "color:red;"> add task + </p>
-        </div>
-    </div>
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <strong>{{ task.name }}</strong>
+                    <br>
+                    {% if task.description %}
+                        - {{ task.description }}
+                    {% endif %}
+                    <br>
+                    <small>
+                        Project: {{ task.project_id.name }} | Due Date: {{ task.due_date }}
+                    </small>
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks yet.</p>
+    {% endif %}
 {% endblock %}
