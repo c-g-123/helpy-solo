@@ -33,6 +33,9 @@ def register(request):
 
 def login(request):
     if request.method != 'POST':
+        if request.user.is_authenticated:
+            return redirect(reverse('core:calendar'))  # WARNING Change this to redirect to the default dashboard chosen by the user.
+
         return render(request, 'core/login.html')
 
     username = request.POST.get('username')
