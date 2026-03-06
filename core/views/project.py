@@ -11,21 +11,21 @@ from core.models import Project
 def create_project(request):
     context = {}
 
-    if request.method == "GET":
+    if request.method == 'GET':
         form = ProjectForm()
         context['form'] = form
         return render(request, 'core/create_project.html', context)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = ProjectForm(request.POST)
         context['form'] = form
         if form.is_valid():
             project = form.save(commit=False)
             project.user_id = request.user
             project.save()
-            return redirect(reverse("core:project", args=[project.id]))
+            return redirect(reverse('core:project', args=[project.id]))
 
-        return render(request, "core/create_project.html", context)
+        return render(request, 'core/create_project.html', context)
 
     return HttpResponseNotAllowed(['GET', 'POST'])
 
@@ -37,20 +37,32 @@ def view_project(request, project_id):
         'project': project,
     }
 
-    if request.method == "GET":
+    if request.method == 'GET':
         form = ProjectForm(instance=project)
         context['form'] = form
         return render(request, 'core/project.html', context)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = ProjectForm(request.POST)
         context['form'] = form
         if form.is_valid():
             project = form.save(commit=False)
             project.user_id = request.user
             project.save()
-            return redirect(reverse("core:project", args=[project.id]))
+            return redirect(reverse('core:project', args=[project.id]))
 
-        return render(request, "core/project.html", context)
+        return render(request, 'core/project.html', context)
 
     return HttpResponseNotAllowed(['GET', 'POST'])
+
+@login_required
+def view_projects(request):
+    projects = Project.objects.filter(user_id=request.user)
+    context = {
+        'projects': projects
+    }
+
+    if request.method == 'GET':
+        return render(request, 'core/projects.html', context)
+
+    return HttpResponseNotAllowed(['GET'])

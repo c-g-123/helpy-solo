@@ -1,0 +1,17 @@
+{% extends 'core/navigation_base.html' %}
+
+{%block title %}
+    Projects
+{% endblock %}
+
+{% block body_after_navigation %}
+    <ul>
+        {% for project in projects %}
+            <li>
+                <a href="{% url 'core:project' project.id %}">{{ project.name }}</a>
+            </li>
+        {% empty %}
+            <li>You have no projects.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
