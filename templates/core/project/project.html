@@ -11,10 +11,11 @@
         <button type="submit">Save</button>
     </form>
     {% for task in tasks %}
-            <li>
-                <a href="{% url 'core:task' task.id %}">{{ task.name }}</a>
-            </li>
-        {% empty %}
-            <li>This project has no tasks.</li>
-        {% endfor %}
+        <li>
+            <a href="{% url 'core:task' task.id %}">{{ task.name }}</a>
+        </li>
+    {% empty %}
+        <li>This project has no tasks.</li>
+    {% endfor %}
+    <a href="{% url 'core:create_task' %}">Add task</a>
 {% endblock %}

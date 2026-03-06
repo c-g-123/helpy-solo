@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body_after_navigation %}
+    <h1>Create task</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
