@@ -7,18 +7,6 @@ _MAX_FILENAME_LENGTH = 50
 _MAX_DESCRIPTION_LENGTH = 300
 
 
-# Uncomment this if we decide to add more fields to the user model than django.contrib.auth provides.
-# class UserProfile(models.Model):
-#
-#     # This line is required. Links UserProfile to a User model instance.
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)  # Import from django.contrib.auth.
-#
-#     # The additional attributes we wish to include...
-#
-#     def __str__(self):
-#         return self.user.username
-
-
 class Project(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
