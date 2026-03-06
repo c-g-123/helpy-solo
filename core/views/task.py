@@ -13,20 +13,20 @@ from core.views.utils import render_error_message
 def create_task(request):
     user_projects = Project.objects.filter(user=request.user)
 
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
+    if request.method == 'GET':
+        form = TaskForm(user=request.user)
+    elif request.method == 'POST':
+        form = TaskForm(request.POST, user=request.user)
 
         if form.is_valid():
             task = form.save(commit=False)
             task.user = request.user
             task.save()
             return redirect(reverse('core:task', args=[task.id]))
-    elif request.method == 'GET':
-        form = TaskForm()
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    return render(request, 'core/project/create_project.html', {'form': form})
+    return render(request, 'core/task/create_task.html', {'form': form})
 
 
 @login_required

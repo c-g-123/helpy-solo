@@ -1,6 +1,8 @@
+from urllib.error import HTTPError
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from core.forms import ProjectForm
@@ -27,7 +29,7 @@ def create_project(request):
 
 @login_required
 def view_project(request, project_id):
-    project = Project.objects.get(id=project_id, user=request.user)
+    project = get_object_or_404(Project, id=project_id, user=request.user)
 
     if request.method == 'GET':
         form = ProjectForm(instance=project)
@@ -35,7 +37,7 @@ def view_project(request, project_id):
         form = ProjectForm(request.POST, instance=project)
 
         if form.is_valid():
-            form.save()
+            project.save()
             return redirect(reverse('core:project', args=[project.id]))
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])

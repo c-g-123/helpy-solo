@@ -32,6 +32,6 @@ urlpatterns = [
 
     # Other
 
-    path('', views.home, name='index'),
+    path('', views.index, name='index'),
     path('account/', views.account, name='account'),
 ]

@@ -54,3 +54,9 @@ class TaskForm(forms.ModelForm):
             "set_date",
             "due_date",
         ]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["project"].queryset = Project.objects.filter(user=user)
