@@ -26,9 +26,9 @@ def create_task(request):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    return render(request, 'core/create_project.html', {'form': form})
+    return render(request, 'core/project/create_project.html', {'form': form})
 
 
 @login_required
 def view_task(request, task_id):
-    return render(request, 'core/task.html')
+    return render(request, 'core/task/task.html')
