@@ -2,11 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.utils.dateparse import parse_datetime
 
 from core.forms import TaskForm
-from core.models import Project, Task
-from core.views.utils import render_error_message
+from core.models import Task
 
 
 @login_required

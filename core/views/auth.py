@@ -18,11 +18,11 @@ def register(request):
     # Validation
 
     if not username:
-        return render_error_message(request, template='core/register.html', error_message='Username cannot be empty.')
+        return render_error_message(request, template='core/auth/register.html', error_message='Username cannot be empty.')
     if not password:
-        return render_error_message(request, template='core/register.html', error_message='Password cannot be empty.')
+        return render_error_message(request, template='core/auth/register.html', error_message='Password cannot be empty.')
     if password != repeat_password:
-        return render_error_message(request, template='core/register.html', error_message='Passwords do not match.')
+        return render_error_message(request, template='core/auth/register.html', error_message='Passwords do not match.')
 
     user = User.objects.create_user(username=username, password=password)
 
@@ -44,9 +44,9 @@ def login(request):
     user = auth.authenticate(username=username, password=password)
 
     if not user:
-        return render_error_message(request, template='core/login.html', error_message='Invalid username or password.')
+        return render_error_message(request, template='core/auth/login.html', error_message='Invalid username or password.')
     if not user.is_active:
-        return render_error_message(request, template='core/login.html', error_message='Your account is disabled.')
+        return render_error_message(request, template='core/auth/login.html', error_message='Your account is disabled.')
 
     auth.login(request, user)
     return redirect(reverse('core:calendar'))  # WARNING Change this to redirect to the default dashboard chosen by the user.
@@ -55,4 +55,4 @@ def login(request):
 @login_required
 def logout(request):
     auth.logout(request)
-    return redirect(reverse('core:home'))
+    return redirect(reverse('core:index'))
