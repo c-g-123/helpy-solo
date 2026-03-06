@@ -1,0 +1,13 @@
+{% extends 'core/navigation_base.html' %}
+
+{%block title %}
+    {{ project.name }}
+{% endblock %}
+
+{% block body_after_navigation %}
+    <form method="post" action="{% url 'core:create_project' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

@@ -6,7 +6,6 @@
 
 {% block body_after_navigation %}
     <h1>Create Project</h1>
-
     <form method="post" action="{% url 'core:create_project' %}">
         {% csrf_token %}
         {{ form.as_p }}

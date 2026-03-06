@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from core.forms import ProjectForm
+from core.models import Project
 
 
 @login_required
@@ -31,4 +32,25 @@ def create_project(request):
 
 @login_required
 def view_project(request, project_id):
-    return render(request, 'core/project.html')
+    project = Project.objects.get(id=project_id, user_id=request.user)
+    context = {
+        'project': project,
+    }
+
+    if request.method == "GET":
+        form = ProjectForm(instance=project)
+        context['form'] = form
+        return render(request, 'core/project.html', context)
+
+    if request.method == "POST":
+        form = ProjectForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user_id = request.user
+            project.save()
+            return redirect(reverse("core:project", args=[project.id]))
+
+        return render(request, "core/project.html", context)
+
+    return HttpResponseNotAllowed(['GET', 'POST'])
