@@ -48,7 +48,7 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [
-            "project_id",
+            "project",
             "name",
             "description",
             "set_date",

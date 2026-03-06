@@ -21,7 +21,7 @@ _MAX_DESCRIPTION_LENGTH = 300
 
 class Project(models.Model):
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=_MAX_ITEM_NAME_LENGTH)
     # Should colour be a foreign key for a colour table? Otherwise, enums will suffice.
 
@@ -31,11 +31,11 @@ class Project(models.Model):
 
 class Task(models.Model):
 
-    project_id = models.ForeignKey(
+    project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE
     )
-    parent_task_id = models.ForeignKey(
+    parent_task= models.ForeignKey(
         'self',
            on_delete=models.CASCADE,
            null=True,  # Allow top level tasks to have no parent.
@@ -71,6 +71,6 @@ class Tag(models.Model):
 
 class Resource(models.Model):
 
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     name = models.CharField(max_length=_MAX_ITEM_NAME_LENGTH)
     added_date = models.DateTimeField()

@@ -28,7 +28,7 @@ urlpatterns = [
     # Task
 
     path('task/create/', views.create_task, name='create_task'),
-    path('task/', views.task, name='task'),
+    path('task/<int:task_id>/', views.task, name='task'),
 
     # Other
 

@@ -82,7 +82,7 @@ def populate():
 
         for task_data in project_data['task_data']:
             parent_task = add_task(
-                project_id=p, 
+                project=p,
                 name=task_data['name'], 
                 description=task_data['description'],
                 set_date=task_data['set_date'],
@@ -92,29 +92,29 @@ def populate():
             if 'sub_tasks' in task_data:
                 for sub_task in task_data['sub_tasks']:
                     add_task(
-                        project_id=p,
+                        project=p,
                         name = sub_task['name'],
                         description = sub_task['description'],
                         set_date = sub_task['set_date'],
                         due_date = sub_task['due_date'],
-                        parent_task_id = parent_task 
+                        parent_task= parent_task 
                     )
 
     for p in Project.objects.all():
-        print(f'\nProject: {p.name} (Owner: {p.user_id.username})')
+        print(f'\nProject: {p.name} (Owner: {p.user.username})')
 
-        for t in Task.objects.filter(project_id=p, parent_task_id__isnull=True):
+        for t in Task.objects.filter(project=p, parent_task__isnull=True):
             print(f' -> Task: {t.name}')
 
-            for sub_t in Task.objects.filter(parent_task_id=t):
+            for sub_t in Task.objects.filter(parent_task=t):
                 print(f' - Sub-task: {sub_t.name}')
 
-def add_task(project_id, name, description, set_date, due_date, parent_task_id=None):
+def add_task(project, name, description, set_date, due_date, parent_task=None):
     t, created = Task.objects.get_or_create(
-        project_id=project_id, 
+        project=project,
         name=name,
         defaults={
-            'parent_task_id': parent_task_id,
+            'parent_task': parent_task,
             'description': description,
             'set_date': set_date,
             'due_date': due_date
@@ -125,8 +125,8 @@ def add_task(project_id, name, description, set_date, due_date, parent_task_id=N
         t.save()
     return t
 
-def add_project(name, user_id):
-    p, created = Project.objects.get_or_create(name=name, user_id=user_id)
+def add_project(name, user):
+    p, created = Project.objects.get_or_create(name=name, user=user)
     if created:
         p.save()
     return p
