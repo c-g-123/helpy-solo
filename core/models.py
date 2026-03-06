@@ -31,17 +31,35 @@ class Project(models.Model):
 
 class Task(models.Model):
 
-    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
-    parent_task_id = models.ForeignKey('self',
-                                       on_delete=models.CASCADE,
-                                       null=True,  # Allow top level tasks to have no parent.
-                                       blank=True,)
+    project_id = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE
+    )
+    parent_task_id = models.ForeignKey(
+        'self',
+           on_delete=models.CASCADE,
+           null=True,  # Allow top level tasks to have no parent.
+           blank=True,
+    )
     name = models.CharField(max_length=_MAX_ITEM_NAME_LENGTH)
-    description = models.CharField(max_length=_MAX_DESCRIPTION_LENGTH)
-    set_date = models.DateTimeField()
-    due_date = models.DateTimeField()
+    description = models.CharField(
+        max_length=_MAX_DESCRIPTION_LENGTH,
+        null=True,
+        blank=True,
+    )
+    set_date = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+    due_date = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
     # Should status be a foreign key for a status table? Otherwise, enums will suffice.
     # Should priority be a foreign key for a priority table? Otherwise, enums will suffice.
+
+    def __str__(self):
+        return self.name
 
 
 class Tag(models.Model):
