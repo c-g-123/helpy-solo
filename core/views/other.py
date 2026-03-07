@@ -23,5 +23,5 @@ def account(request):
     context = {
         'form': form,
     }
-    
-    return render(request, 'core/settings.html')
+
+    return render(request, 'core/settings.html', context)
