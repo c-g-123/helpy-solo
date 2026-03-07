@@ -15,7 +15,15 @@
         <label>Email:</label>
         {{ email_form.email }}
         <button type="submit">Save</button>
+    </form>
+    
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="username">
 
+        <label>Username:</label>
+        {{ username_form.username }}
+        <button type="submit">Save</button>
     </form>
 
     <h2>Preferences</h2>

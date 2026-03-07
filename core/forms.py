@@ -85,3 +85,18 @@ class UserEmailForm(forms.ModelForm):
         fields = [
             "email",
         ]
+
+class UsernameForm(forms.ModelForm):
+
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Username"
+        })
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+        ]
