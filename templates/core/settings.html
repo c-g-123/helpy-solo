@@ -49,4 +49,11 @@
 
         <button type="submit">Save Preferences</button>
     </form>
+
+    <h2>Delete Your Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="delete_account">
+        <button type="submit">Delete Account</button>
+    </form>
 {% endblock %}
