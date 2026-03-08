@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from core.models import UserSettings
 from core.forms import UserSettingsForm, UserEmailForm, UsernameForm
@@ -24,18 +24,21 @@ def account(request):
 
             if settings_form.is_valid():
                 settings_form.save()
+                return redirect('core:account')
         
         elif form_type == 'email':
             email_form = UserEmailForm(request.POST, instance=request.user)
 
             if email_form.is_valid():
                 email_form.save()
+                return redirect('core:account')
         
         elif form_type == 'username':
             username_form = UsernameForm(request.POST, instance=request.user)
 
             if username_form.is_valid():
                 username_form.save()
+                return redirect('core:account')
         
     context = {
         'settings_form': settings_form,
