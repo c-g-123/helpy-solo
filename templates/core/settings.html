@@ -12,8 +12,6 @@
         {% csrf_token %}
         <input type="hidden" name="form_type" value="email">
 
-        {{ email_form.non_field_errors }}
-
         <label>Email:</label>
         {{ email_form.email }}
         {{ email_form.email.errors }}
@@ -25,8 +23,6 @@
         {% csrf_token %}
         <input type="hidden" name="form_type" value="username">
 
-        {{ username_form.non_field_errors }}
-
         <label>Username:</label>
         {{ username_form.username }}
         {{ username_form.username.errors }}
@@ -34,11 +30,21 @@
         <button type="submit">Save</button>
     </form>
 
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="password">
+
+        {{ password_form.non_field_errors }}
+        {{ password_form.as_p }}
+
+        <button type="submit">Change Password</button>
+    </form>
+
     <h2>Preferences</h2>
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="form_type" value="settings">
-        
+
         {{ settings_form.as_p }}
 
         <button type="submit">Save Preferences</button>

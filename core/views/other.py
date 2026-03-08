@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 from core.models import UserSettings
 from core.forms import UserSettingsForm, UserEmailForm, UsernameForm
@@ -15,7 +17,8 @@ def account(request):
     settings_form = UserSettingsForm(instance=user_settings)
     email_form = UserEmailForm(instance=request.user)
     username_form = UsernameForm(instance=request.user)
-    
+    password_form = PasswordChangeForm(user=request.user)
+
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
 
@@ -40,10 +43,19 @@ def account(request):
                 username_form.save()
                 return redirect('core:account')
         
+        elif form_type == 'password':
+            password_form = PasswordChangeForm(user=request.user, data=request.POST)
+
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)  # Important to keep the user logged in after password change.
+                return redirect('core:account')
+        
     context = {
         'settings_form': settings_form,
         'email_form': email_form,
         'username_form': username_form,
+        'password_form': password_form,
     }
 
     return render(request, 'core/settings.html', context)
