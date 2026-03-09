@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}
+    Welcome to Helpy
+{% endblock %}
+
+{% block body %}
+    {% block navigation %}
+        <div id="welcome_nav_bar">
+            <img src="{% static 'images/testcat.jpeg' %}" alt="Helpy Logo" height="50" style="margin-right: auto;">
+            <a href="{% url 'core:login' %}">Login</a>
+            <a href="{% url 'core:register' %}">Register</a>
+        </div>
+    {% endblock %}
+
+    {% block body_after_navigation %}
+        <div id="welcome">
+            <h1 style="text-align: center;">Welcome to Helpy</h1>
+            <p style="text-align: center;">Helpy is a personal productivity tool that helps you manage your tasks, projects, and schedule in one place.</p>
+            <p style="text-align: center;">Get started by creating an account or logging in to your existing account.</p>
+        </div>
+    {% endblock %}
+{% endblock %}

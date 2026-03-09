@@ -56,3 +56,35 @@ a.right{
     display: flex;
     align-items:center;
 }
+
+#welcome_nav_bar {
+    position: absolute;
+    top: 0;
+    left: 0;                
+    width: 100%;            
+    box-sizing: border-box;   
+    background-color: var(--darkest); 
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px; 
+    padding: 10px 25px;
+}
+
+#welcome_nav_bar a {
+    text-decoration: none;
+    padding: 3px 7px;
+    background-color: #555;   
+    color: white;
+}
+
+#welcome_nav_bar a:hover {
+    background-color: #333;
+}
+
+#welcome {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Perfect dead-center alignment */
+    width: 80%; /* Prevents text from stretching too far horizontally */
+}
