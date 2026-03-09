@@ -1,10 +1,10 @@
-{% extends 'core/navigation_base.html' %}
+{% extends 'core/base.html' %}
 
 {%block title %}
-    Create Project
+    Create project
 {% endblock %}
 
-{% block body_after_navigation %}
+{% block body %}
     <h1>Create project</h1>
     <form method="post">
         {% csrf_token %}

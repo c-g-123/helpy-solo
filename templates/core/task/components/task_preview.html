@@ -1,0 +1,12 @@
+<strong>
+    <a href="{% url 'core:task' task.id %}">{{ task.name }}</a><br/>
+</strong>
+<small>
+    {{ task.project.name }}<br/>
+    {% if task.description %}
+        {{ task.description }}<br/>
+    {% endif %}
+    {%  if task.due_date %}
+        {{ task.due_date }}<br/>
+    {% endif %}
+</small>

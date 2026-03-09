@@ -1,20 +1,22 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-    Register
+    Login
+{% endblock %}
+
+{% block navigation_bar %}
 {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1>Login</h1>
     <form method="post">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username" size="50"/><br/>
         <input type="password" name="password" placeholder="Password" size="50"/><br/>
-        <input type="password" name="repeat_password" placeholder="Repeat password" size="50"/><br/>
         {% if error_message %}
             {{ error_message }}<br/>
         {% endif %}
-        <input type="submit" value="Register" />
+        <input type="submit" value="Login"/><br/>
     </form>
-    Already have an account? <a href="{% url 'core:login' %}">Log in</a>.
+    <p>Don't have an account? <a href="{% url 'core:register' %}">Sign up</a>.</p>
 {% endblock %}

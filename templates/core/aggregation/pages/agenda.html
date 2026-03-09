@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% block title %}
+    Agenda
+{% endblock %}
+{% block body %}
+    <h1>Agenda</h1>
+    <a href="{% url 'core:create_task' %}">Add task</a>
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {% include 'core/task/components/task_preview.html' with task=task %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks yet.</p>
+    {% endif %}
+{% endblock %}

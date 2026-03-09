@@ -1,10 +1,10 @@
-{% extends 'core/navigation_base.html' %}
+{% extends 'core/base.html' %}
 
 {% block title %}
     {{ task.name }}
 {% endblock %}
 
-{% block body_after_navigation %}
+{% block body %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

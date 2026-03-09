@@ -7,6 +7,8 @@ app_name = 'core'
 
 
 urlpatterns = [
+    path('', views.index, name='index'),
+
     # Auth
 
     path('register/', views.register, name='register'),
@@ -30,8 +32,7 @@ urlpatterns = [
     path('task/create/', views.create_task, name='create_task'),
     path('task/<int:task_id>/', views.task, name='task'),
 
-    # Other
+    # User
 
-    path('', views.index, name='index'),
-    path('account/', views.account, name='account'),
+    path('account/', views.settings, name='settings'),
 ]

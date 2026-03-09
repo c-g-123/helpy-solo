@@ -9,7 +9,7 @@ from .utils import render_error_message
 
 def register(request):
     if request.method != 'POST':
-        return render(request, 'core/authorisation/register.html')
+        return render(request, 'core/authorisation/pages/register.html')
 
     username = request.POST.get('username')
     password = request.POST.get('password')
@@ -36,7 +36,7 @@ def login(request):
         if request.user.is_authenticated:
             return redirect(reverse('core:calendar'))  # WARNING Change this to redirect to the default dashboard chosen by the user.
 
-        return render(request, 'core/authorisation/login.html')
+        return render(request, 'core/authorisation/pages/login.html')
 
     username = request.POST.get('username')
     password = request.POST.get('password')

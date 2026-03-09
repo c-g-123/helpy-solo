@@ -12,6 +12,9 @@
     </title>
 </head>
 <body>
+    {% block navigation_bar %}
+        {% include 'core/components/navigation_bar.html' %}
+    {% endblock %}
     {% block body %}
     {% endblock %}
 </body>

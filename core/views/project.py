@@ -22,7 +22,7 @@ def create_project(request):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    return render(request, 'core/project/create_project.html', {'form': form})
+    return render(request, 'core/project/pages/create_project.html', {'form': form})
 
 
 @login_required
@@ -48,7 +48,7 @@ def view_project(request, project_id):
         'form': form,
     }
 
-    return render(request, 'core/project/project.html', context)
+    return render(request, 'core/project/pages/project.html', context)
 
 
 @login_required
@@ -57,4 +57,4 @@ def view_projects(request):
         return HttpResponseNotAllowed(['GET'])
 
     projects = Project.objects.filter(user=request.user)
-    return render(request, 'core/project/projects.html', {'projects': projects})
+    return render(request, 'core/project/pages/projects.html', {'projects': projects})

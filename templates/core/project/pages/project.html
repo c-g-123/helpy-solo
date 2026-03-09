@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    {{ project.name }}
+{% endblock %}
+
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {% include 'core/task/components/task_preview.html' with task=task %}
+            </li>
+        {% empty %}
+            <p>This project has no tasks.</p>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'core:create_task' %}">Add task</a>
+{% endblock %}
