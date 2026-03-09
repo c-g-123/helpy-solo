@@ -34,5 +34,5 @@ urlpatterns = [
 
     # User
 
-    path('account/', views.settings, name='settings'),
+    path('settings/', views.settings, name='settings'),
 ]
