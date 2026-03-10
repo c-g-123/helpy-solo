@@ -25,21 +25,21 @@ def settings(request):
 
             if settings_form.is_valid():
                 settings_form.save()
-                return redirect('core:account')
+                return redirect('core:settings')
 
         elif form_type == 'email':
             email_form = UserEmailForm(request.POST, instance=request.user)
 
             if email_form.is_valid():
                 email_form.save()
-                return redirect('core:account')
+                return redirect('core:settings')
 
         elif form_type == 'username':
             username_form = UsernameForm(request.POST, instance=request.user)
 
             if username_form.is_valid():
                 username_form.save()
-                return redirect('core:account')
+                return redirect('core:settings')
 
         elif form_type == 'password':
             password_form = PasswordChangeForm(user=request.user, data=request.POST)
@@ -47,7 +47,7 @@ def settings(request):
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)  # Important to keep the user logged in after password change.
-                return redirect('core:account')
+                return redirect('core:settings')
 
         elif form_type == 'delete_account':
             user = request.user
