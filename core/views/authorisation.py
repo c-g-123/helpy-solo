@@ -4,8 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.urls import reverse
 
-from .utils import render_error_message
-from ..forms import RegisterForm, LoginForm
+from core.forms import RegisterForm, LoginForm
 
 
 def register(request):
