@@ -1,12 +1,49 @@
 from django import forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from core.models import Project, Task, UserSettings
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    repeat_password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        repeat_password = cleaned_data.get("repeat_password")
+
+        if password and repeat_password and password != repeat_password:
+            raise forms.ValidationError("Passwords do not match.")
+
+        return cleaned_data
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        user = authenticate(
+            username=cleaned_data.get("username"),
+            password=cleaned_data.get("password")
+        )
+
+        if not user:
+            raise forms.ValidationError("Invalid username or password.")
+        if not user.is_active:
+            raise forms.ValidationError("Your account is disabled.")
+
+        cleaned_data["authenticated_user"] = user
+        return cleaned_data
 
 
 class ProjectForm(forms.ModelForm):
 
     name = forms.CharField(
-        max_length=Project._meta.get_field("name").max_length,
         widget=forms.TextInput(attrs={
             "placeholder": "Name"
         })
@@ -22,14 +59,12 @@ class ProjectForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
 
     name = forms.CharField(
-        max_length=Task._meta.get_field("name").max_length,
         widget=forms.TextInput(attrs={
             "placeholder": "Name"
         })
     )
 
     description = forms.CharField(
-        max_length=Task._meta.get_field("description").max_length,
         required=False,
         widget=forms.TextInput(attrs={
             "placeholder": "Description"
@@ -62,6 +97,7 @@ class TaskForm(forms.ModelForm):
         if user:
             self.fields["project"].queryset = Project.objects.filter(user=user)
 
+
 class UserSettingsForm(forms.ModelForm):
 
     class Meta:
@@ -71,10 +107,10 @@ class UserSettingsForm(forms.ModelForm):
             "default_page",
         ]
 
+
 class UserEmailForm(forms.ModelForm):
 
     email = forms.EmailField(
-        required=True,
         widget=forms.EmailInput(attrs={
             "placeholder": "Email"
         })
@@ -86,10 +122,10 @@ class UserEmailForm(forms.ModelForm):
             "email",
         ]
 
+
 class UsernameForm(forms.ModelForm):
 
     username = forms.CharField(
-        required=True,
         widget=forms.TextInput(attrs={
             "placeholder": "Username"
         })

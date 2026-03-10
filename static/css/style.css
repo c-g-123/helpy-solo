@@ -7,6 +7,7 @@
     --darkest:#262626;
 
     font-family: sans-serif;
+    --font-colour: white;
 
 }
 
@@ -14,7 +15,6 @@
 .navigation_bar {
 
     --background-colour: #1A1B25;
-    --font-colour: white;
     --background-hover-colour: #282A3B;
 
     display: flex;
