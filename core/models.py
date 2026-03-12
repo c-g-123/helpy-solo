@@ -59,11 +59,11 @@ class Task(models.Model):
         null=True,
         blank=True,
     )
-    set_date = models.DateTimeField(
+    set_datetime = models.DateTimeField(
         null=True,
         blank=True,
     )
-    due_date = models.DateTimeField(
+    due_datetime = models.DateTimeField(
         null=True,
         blank=True,
     )

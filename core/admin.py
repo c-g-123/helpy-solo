@@ -9,7 +9,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'set_date', 'due_date')
+    list_display = ('name', 'description', 'set_datetime', 'due_datetime')
 
 
 @admin.register(Tag)

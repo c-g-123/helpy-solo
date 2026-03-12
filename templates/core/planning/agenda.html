@@ -1,15 +1,19 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block title %}
     Agenda
 {% endblock %}
 {% block body %}
     <h1>Agenda</h1>
     <a href="{% url 'core:create_task' %}">Add task</a>
-    {% if tasks %}
+    {% if days_with_tasks %}
         <ul>
-            {% for task in tasks %}
+            {% for day, day_data in days_with_tasks %}
                 <li>
-                    {% include 'core/task/components/../../task/task-card.html' with task=task %}
+                    {{ day }}<br/>
+                    {% for task in day_data.tasks %}
+                        {% include 'core/task/task-card.html' with task=task %}
+                    {% endfor %}
                 </li>
             {% endfor %}
         </ul>

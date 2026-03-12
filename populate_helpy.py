@@ -4,134 +4,95 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'helpy.settings')
 import django
 django.setup()
 
-from django.utils import timezone
-from datetime import timedelta
+import random
+from datetime import datetime, timedelta
+
 from django.contrib.auth.models import User
-from core.models import Project, Task
-
-def get_or_create_user(username, password):
-    user, created = User.objects.get_or_create(username=username)
-    if created:
-        user.set_password(password)
-        user.save()
-    return user
-
-def get_or_create_superuser(username, email, password):
-    user, created = User.objects.get_or_create(username=username, email=email)
-    if created:
-        user.set_password(password)
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
-    return user
+from core.models import Project, Task, Tag, Resource
 
 
-def populate():
-    user_1 = get_or_create_user('alice', 'password123')
-    user_2 = get_or_create_user('bob', 'password123')
+def create_users(n=5):
+    users = []
+    for i in range(1, n + 1):
+        user, created = User.objects.get_or_create(
+            username=f"user{i}",
+            defaults={"email": f"user{i}@example.com", "password": "pass1234"}
+        )
+        users.append(user)
+    return users
 
-    superuser_1 = get_or_create_superuser('superman', 'batman@againstcrime.com', '123456789')
 
-    now = timezone.now()
-
-    project_1_tasks = [
-        {'name': 'task_1', 
-         'description': 'Initialize the project and apps.', 
-         'set_date': now, 
-         'due_date': now + timedelta(days=2),
-         'sub_tasks': [
-                {
-                    'name': 'task_1.1', 
-                    'description': 'pip install django', 
-                    'set_date': now, 
-                    'due_date': now + timedelta(days=1),
-                },
-                {
-                    'name': 'task_1.2', 
-                    'description': 'Set up database and templates.', 
-                    'set_date': now, 
-                    'due_date': now + timedelta(days=2)
-                }
-            ]
-        },
-
-        {'name': 'task_2', 
-         'description': 'Map out the models and relationships.', 
-         'set_date': now, 
-         'due_date': now + timedelta(days=4)},
-    ]
-    
-    project_2_tasks = [
-        {'name': 'task_1', 
-         'description': 'Create HTML templates and CSS.', 
-         'set_date': now, 
-         'due_date': now + timedelta(days=7)},
-        {'name': 'task_2', 
-         'description': 'Ensure test coverage is above 80%.', 
-         'set_date': now + timedelta(days=1), 
-         'due_date': now + timedelta(days=10)},
-    ]
-
-    projects = {
-        'Website Redesign': {'task_data': project_1_tasks, 'user': user_1},
-        'Mobile App Launch': {'task_data': project_2_tasks, 'user': user_2},
-    }
-
-    for project_name, project_data in projects.items():
-        p = add_project(project_name, project_data['user'])
-
-        for task_data in project_data['task_data']:
-            parent_task = add_task(
-                project=p,
-                name=task_data['name'], 
-                description=task_data['description'],
-                set_date=task_data['set_date'],
-                due_date=task_data['due_date']
+def create_projects(users, n=3):
+    projects = []
+    for user in users:
+        for i in range(1, n + 1):
+            project, created = Project.objects.get_or_create(
+                user=user,
+                name=f"{user.username} Project {i}"
             )
+            projects.append(project)
+    return projects
 
-            if 'sub_tasks' in task_data:
-                for sub_task in task_data['sub_tasks']:
-                    add_task(
-                        project=p,
-                        name = sub_task['name'],
-                        description = sub_task['description'],
-                        set_date = sub_task['set_date'],
-                        due_date = sub_task['due_date'],
-                        parent_task= parent_task 
-                    )
 
-    for p in Project.objects.all():
-        print(f'\nProject: {p.name} (Owner: {p.user.username})')
+def create_tasks(projects, max_depth=2, tasks_per_project=5):
+    all_tasks = []
 
-        for t in Task.objects.filter(project=p, parent_task__isnull=True):
-            print(f' -> Task: {t.name}')
+    def add_task(project, parent=None, depth=0):
+        if depth > max_depth:
+            return None
+        task_name = f"Task {len(all_tasks) + 1}"
+        task = Task.objects.create(
+            project=project,
+            parent_task=parent,
+            name=task_name,
+            description=f"Description for {task_name}",
+            set_datetime=datetime.now(),
+            due_datetime=datetime.now() + timedelta(days=random.randint(1, 10))
+        )
+        all_tasks.append(task)
+        # Optionally create subtasks
+        for _ in range(random.randint(0, 2)):
+            add_task(project, parent=task, depth=depth + 1)
 
-            for sub_t in Task.objects.filter(parent_task=t):
-                print(f' - Sub-task: {sub_t.name}')
+    for project in projects:
+        for _ in range(tasks_per_project):
+            add_task(project)
 
-def add_task(project, name, description, set_date, due_date, parent_task=None):
-    t, created = Task.objects.get_or_create(
-        project=project,
-        name=name,
-        defaults={
-            'parent_task': parent_task,
-            'description': description,
-            'set_date': set_date,
-            'due_date': due_date
-        }
-    )
+    return all_tasks
 
-    if created:
-        t.save()
-    return t
 
-def add_project(name, user):
-    p, created = Project.objects.get_or_create(name=name, user=user)
-    if created:
-        p.save()
-    return p
-    
-if __name__ == '__main__':
-    print('Starting Helpy population script...')
-    populate()
-    print('Population finished.')
+def create_tags(users, n=5):
+    tags = []
+    for i in range(1, n + 1):
+        tag, created = Tag.objects.get_or_create(name=f"Tag {i}")
+        tag.tags.set(random.sample(users, k=random.randint(1, len(users))))
+        tags.append(tag)
+    return tags
+
+
+def create_resources(tasks, n=3):
+    resources = []
+    for task in tasks:
+        for i in range(n):
+            resource = Resource.objects.create(
+                task=task,
+                name=f"{task.name} Resource {i + 1}",
+                added_date=datetime.now()
+            )
+            resources.append(resource)
+    return resources
+
+
+if __name__ == "__main__":
+    users = create_users()
+    projects = create_projects(users)
+    tasks = create_tasks(projects)
+    tags = create_tags(users)
+    resources = create_resources(tasks)
+
+    print("Populated database with:")
+    print(f"- {len(users)} users")
+    print(f"- {len(projects)} projects")
+    print(f"- {len(tasks)} tasks")
+    print(f"- {len(tags)} tags")
+    print(f"- {len(resources)} resources")

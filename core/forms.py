@@ -71,12 +71,12 @@ class TaskForm(forms.ModelForm):
         })
     )
 
-    set_date = forms.DateTimeField(
+    set_datetime = forms.DateTimeField(
         required=False,
         widget=forms.DateTimeInput(attrs={"type": "datetime-local"})
     )
 
-    due_date = forms.DateTimeField(
+    due_datetime = forms.DateTimeField(
         required=False,
         widget=forms.DateTimeInput(attrs={"type": "datetime-local"})
     )
@@ -88,8 +88,8 @@ class TaskForm(forms.ModelForm):
             "parent_task",
             "name",
             "description",
-            "set_date",
-            "due_date",
+            "set_datetime",
+            "due_datetime",
         ]
 
     def __init__(self, *args, **kwargs):
