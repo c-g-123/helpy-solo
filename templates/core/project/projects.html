@@ -1,19 +1,22 @@
 {% extends 'core/base.html' %}
-
-{%block title %}
-    Projects
-{% endblock %}
+{% block title %}Projects{% endblock %}
 
 {% block body %}
-    <h1>Projects</h1>
-    <ul>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Your Projects</h1>
+        <a href="{% url 'core:create_project' %}" class="btn-save" style="text-decoration: none;">+ Create Project</a>
+    </div>
+    
+    <div class="task-grid">
         {% for project in projects %}
-            <li>
-                <a href="{% url 'core:project' project.id %}">{{ project.name }}</a>
-            </li>
+            <a href="{% url 'core:project' project.id %}" class="task-card">
+                <strong>{{ project.name }}</strong>
+                <small>Click to view tasks and edit details.</small>
+            </a>
         {% empty %}
-            <li>You have no projects.</li>
+            <p style="color: var(--text-muted);">You have no projects yet.</p>
         {% endfor %}
-    </ul>
-    <a href="{% url 'core:create_project' %}">Create project</a>
+    </div>
+</div>
 {% endblock %}

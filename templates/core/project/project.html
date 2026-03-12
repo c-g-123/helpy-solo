@@ -1,23 +1,36 @@
 {% extends 'core/base.html' %}
-
-{% block title %}
-    {{ project.name }}
-{% endblock %}
+{% block title %}{{ project.name }}{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-    <ul>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>{{ project.name }}</h1>
+    </div>
+
+    <div class="settings-container" style="margin: 0 0 40px 0; max-width: 100%; padding: 30px;">
+        <h2 style="margin-top: 0; border-bottom: none; color: var(--text-muted); font-size: 16px;">EDIT PROJECT DETAILS</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn-save">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="dashboard-header" style="margin-top: 40px;">
+        <h2>Tasks</h2>
+        <a href="{% url 'core:create_task' %}" class="btn-save" style="text-decoration: none;">+ Add Task</a>
+    </div>
+
+    <ul class="task-grid">
         {% for task in tasks %}
             <li>
-                {% include 'core/task/components/../task-card.html' with task=task %}
+                {% include 'core/task/task-card.html' with task=task %}
             </li>
         {% empty %}
-            <p>This project has no tasks.</p>
+            <p style="color: var(--text-muted);">This project has no tasks.</p>
         {% endfor %}
     </ul>
-    <a href="{% url 'core:create_task' %}">Add task</a>
+</div>
 {% endblock %}

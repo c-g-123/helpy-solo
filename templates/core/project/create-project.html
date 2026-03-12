@@ -1,14 +1,16 @@
 {% extends 'core/base.html' %}
 
-{%block title %}
-    Create project
-{% endblock %}
+{% block title %}Create project{% endblock %}
 
 {% block body %}
-    <h1>Create project</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create</button>
-    </form>
+    <div class="form-container" style="margin-top: 40px;">
+        <h1>Create Project</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn-primary">Create Project</button>
+        </form>
+    </div>
 {% endblock %}

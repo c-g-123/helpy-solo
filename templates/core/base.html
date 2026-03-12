@@ -1,29 +1,30 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type ="text/css" href ="{% static 'core/css/style.css' %}">
-    <title>
-        {% block title %}
-            Helpy
-        {% endblock %}
-    </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
+    <title>{% block title %}Helpy{% endblock %}</title>
 </head>
 <body>
     {% block navigation_bar %}
-        <div class="navigation-bar">
-            <a href="{% url 'core:agenda' %}">Agenda</a>
-            <a href="{% url 'core:calendar' %}">Calendar</a>
-            <a href="{% url 'core:kanban' %}">Kanban</a>
-            <a href="{% url 'core:projects' %}">Projects</a>
-            <a href="{% url 'core:logout' %}" style="margin-left: auto">Logout</a>
-            <a href="{% url 'core:settings' %}">Settings</a>
+        <div id="nav_bar">
+            <a class="left" href="{% url 'core:agenda' %}">Agenda</a>
+            <a class="left" href="{% url 'core:calendar' %}">Calendar</a>
+            <a class="left" href="{% url 'core:kanban' %}">Kanban</a>
+            <a class="left" href="{% url 'core:projects' %}">Projects</a>
+            <div class="nav-buttons" style="margin-left: auto; display: flex; gap: 15px;">
+                <a class="right" href="{% url 'core:settings' %}">Settings</a>
+                <a class="right" href="{% url 'core:logout' %}" style="background-color: #555;">Logout</a>
+            </div>
         </div>
     {% endblock %}
-    {% block body %}
-    {% endblock %}
+
+    <div class="main-content">
+        {% block body %}
+        {% endblock %}
+    </div>
+
     {% block scripts %}
     {% endblock %}
 </body>

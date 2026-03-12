@@ -1,23 +1,28 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}
-    Agenda
-{% endblock %}
+{% block title %}Agenda{% endblock %}
+
 {% block body %}
-    <h1>Agenda</h1>
-    <a href="{% url 'core:create_task' %}">Add task</a>
-    {% if days_with_tasks %}
-        <ul>
-            {% for day, day_data in days_with_tasks %}
-                <li>
-                    {{ day }}<br/>
-                    {% for task in day_data.tasks %}
-                        {% include 'core/task/task-card.html' with task=task %}
-                    {% endfor %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No tasks yet.</p>
-    {% endif %}
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Agenda</h1>
+            <a href="{% url 'core:create_task' %}" class="btn-save" style="text-decoration: none;">+ Add task</a>
+        </div>
+
+        {% if days_with_tasks %}
+            <ul class="agenda-list">
+                {% for day, day_data in days_with_tasks %}
+                    <li>
+                        <div class="agenda-day-header">{{ day }}</div>
+                        
+                        {% for task in day_data.tasks %}
+                            {% include 'core/task/task-card.html' with task=task %}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color: var(--text-muted); margin-top: 20px;">No tasks yet.</p>
+        {% endif %}
+    </div>
 {% endblock %}

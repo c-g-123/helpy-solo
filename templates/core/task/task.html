@@ -1,13 +1,15 @@
 {% extends 'core/base.html' %}
-
-{% block title %}
-    {{ task.name }}
-{% endblock %}
+{% block title %}{{ task.name }}{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    <div class="form-container" style="max-width: 600px; margin-top: 40px;">
+        <h1>Edit Task: {{ task.name }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+    </div>
 {% endblock %}

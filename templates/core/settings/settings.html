@@ -1,59 +1,74 @@
 {% extends 'core/base.html' %}
 
-{% block title %}
-    Settings
-{% endblock %}
+{% block title %}Settings{% endblock %}
 
 {% block body %}
+<div class="settings-container" style="margin-top: 0;">
     <h1>Account settings</h1>
 
-    <h2>Account</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="email">
+    <div class="settings-section">
+        <h2>User Profile</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="username">
+            <div class="settings-row">
+                <label>Username</label>
+                {{ username_form.username }}
+                <button type="submit" class="btn-save">Save</button>
+            </div>
+            {{ username_form.username.errors }}
+        </form>
 
-        <label>Email:</label>
-        {{ email_form.email }}
-        {{ email_form.email.errors }}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="email">
+            <div class="settings-row">
+                <label>Email</label>
+                {{ email_form.email }}
+                <button type="submit" class="btn-save">Save</button>
+            </div>
+            {{ email_form.email.errors }}
+        </form>
 
-        <button type="submit">Save</button>
-    </form>
-    
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="username">
+        <details style="margin-top: 25px;">
+            <summary style="cursor: pointer; font-weight: 600; color: var(--primary); user-select: none;">
+                Change Password 
+            </summary>
+            <form method="post" class="collapsible-form" style="margin-top: 15px; padding: 20px; background: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color);">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="password">
+                {{ password_form.non_field_errors }}
+                {{ password_form.as_p }}
+                <button type="submit" class="btn-save" style="margin-top: 15px;">Update Password</button>
+            </form>
+        </details>
+    </div>
 
-        <label>Username:</label>
-        {{ username_form.username }}
-        {{ username_form.username.errors }}
+    <div class="settings-section">
+        <h2>Display Preferences</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="settings">
+            
+            <div class="settings-row">
+                <label>Theme</label>
+                {{ settings_form.theme }}
+            </div>
+            <div class="settings-row">
+                <label>Default page</label>
+                {{ settings_form.default_page }}
+            </div>
+            <button type="submit" class="btn-save" style="margin-top: 10px;">Save Preferences</button>
+        </form>
+    </div>
 
-        <button type="submit">Save</button>
-    </form>
-
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="password">
-
-        {{ password_form.non_field_errors }}
-        {{ password_form.as_p }}
-
-        <button type="submit">Change Password</button>
-    </form>
-
-    <h2>Preferences</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="settings">
-
-        {{ settings_form.as_p }}
-
-        <button type="submit">Save Preferences</button>
-    </form>
-
-    <h2>Delete Your Account</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="delete_account">
-        <button type="submit">Delete Account</button>
-    </form>
+    <div class="settings-section" style="border-top: 2px solid var(--border-color); padding-top: 20px;">
+        <form method="post" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="delete_account">
+            <button type="submit" class="btn-danger">Delete Account</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
