@@ -9,8 +9,20 @@ from core.models import Task
 
 @login_required
 def create_task(request):
+    initial = {}
+
+    parent_task_id = request.GET.get('parent_task')
+    if parent_task_id:
+        parent_task = get_object_or_404(
+            Task,
+            id=parent_task_id,
+            project__user=request.user
+        )
+        initial['parent_task'] = parent_task
+        initial['project'] = parent_task.project
+
     if request.method == 'GET':
-        form = TaskForm(user=request.user)
+        form = TaskForm(user=request.user, initial=initial)
     elif request.method == 'POST':
         form = TaskForm(request.POST, user=request.user)
 
@@ -38,9 +50,12 @@ def view_task(request, task_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
+    subtasks = Task.objects.filter(parent_task=task, project__user=request.user)
+
     context = {
         'task': task,
         'form': form,
+        'subtasks': subtasks,
     }
 
     return render(request, 'core/task/task.html', context)

@@ -40,7 +40,7 @@ def view_project(request, project_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    tasks = Task.objects.filter(project=project)
+    tasks = Task.objects.filter(project=project, parent_task__isnull=True)
 
     context = {
         'project': project,

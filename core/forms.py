@@ -85,6 +85,7 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = [
             "project",
+            "parent_task",
             "name",
             "description",
             "set_date",
@@ -96,7 +97,18 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields["project"].queryset = Project.objects.filter(user=user)
+            self.fields["parent_task"].queryset = Task.objects.filter(project__user=user)
+            self.fields["parent_task"].required = False
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        project = cleaned_data.get("project")
+        parent_task = cleaned_data.get("parent_task")
 
+        if parent_task and parent_task.project != project:
+            raise forms.ValidationError("A subtask must belong to the same project as its parent task.")
+
+        return cleaned_data
 
 class UserSettingsForm(forms.ModelForm):
 

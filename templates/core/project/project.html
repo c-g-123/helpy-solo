@@ -13,7 +13,7 @@
     <ul>
         {% for task in tasks %}
             <li>
-                {% include 'core/task/components/../task-card.html' with task=task %}
+                {% include 'core/task/task-card.html' with task=task %}
             </li>
         {% empty %}
             <p>This project has no tasks.</p>
