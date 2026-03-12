@@ -54,6 +54,7 @@ def calendar(request):
         'month_matrix': month_matrix,
         'month_name': py_calendar.month_name[month].upper(),
         'year': year,
+        'today_day': today.day if today.month == month and today.year == year else None,
         'prev_month': prev_month,
         'prev_year': prev_year,
         'next_month': next_month,

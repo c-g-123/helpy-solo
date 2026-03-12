@@ -395,3 +395,15 @@ input:focus, select:focus {
     background-color: var(--primary) !important;
     color: white !important;
 }
+
+/* Highlights the current day with a subtle warm border and background */
+.calendar-cell.today {
+    border: 1.7px solid var(--primary); 
+    position: relative;
+    z-index: 1; /* Ensures the border overlaps the grid gaps slightly */
+}
+
+.calendar-cell.today .day-number {
+    color: var(--primary);
+    font-size: 16px; 
+}

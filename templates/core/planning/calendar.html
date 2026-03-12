@@ -21,7 +21,7 @@
 
             {% for week in month_matrix %}
                 {% for day_data in week %}
-                    <div class="calendar-cell {% if day_data.day == 0 %}empty{% endif %}">
+                    <div class="calendar-cell {% if day_data.day == 0 %}empty{% elif day_data.day == today_day %}today{% endif %}">
                         {% if day_data.day != 0 %}
                             <span class="day-number">{{ day_data.day }}</span>
                             <div class="task-list">
