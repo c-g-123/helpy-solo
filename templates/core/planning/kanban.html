@@ -7,23 +7,25 @@
 {% block body %}
     <h1>Kanban</h1>
 
-    <div>
-        <div id = "todo">
-            <h1>TODO</H1>
+    <div class = "kanban">
+
+
+        <div id = "todo" class= "board">
+            <h1>ToDo</h1>
             {%for task in tasks_todo%}
                 {% include 'core/task/task-card.html' with task=task %}
             {%endfor%}
         </div>
 
-        <div id = "inprogress">
-            <h1>IP</H1>
+        <div id = "in_progress" class= "board">
+            <h1>In Progress</h1>
             {%for task in tasks_in_progress%}
                 {% include 'core/task/task-card.html' with task=task %}
             {%endfor%}
         </div>
 
-        <div id = "done">
-            <h1>DONE</H1>
+        <div id = "done" class= "board">
+            <h1>Done</h1>
             {%for task in tasks_done%}
                 {% include 'core/task/task-card.html' with task=task %}
             {%endfor%}

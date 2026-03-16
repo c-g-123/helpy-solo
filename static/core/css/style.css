@@ -407,3 +407,31 @@ input:focus, select:focus {
     color: var(--primary);
     font-size: 16px; 
 }
+
+.kanban {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:20px;
+    height: 100%;
+    color: black;
+}
+
+.kanban .board{
+    padding: 10px;
+    min-height: 400px;
+    border-radius: 10px;
+    min-width: 200px;
+
+}
+
+#todo{
+    background-color: rgb(175, 102, 102);
+}
+
+#in_progress{
+    background-color: rgb(96, 82, 149);
+}
+
+#done{
+    background-color: rgb(77, 141, 94);
+}
