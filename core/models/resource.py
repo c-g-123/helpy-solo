@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.models.task import Task
+from .task import Task
 
 
 class Resource(models.Model):

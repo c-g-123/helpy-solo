@@ -4,14 +4,7 @@ from core.models import Project
 
 class ProjectForm(forms.ModelForm):
 
-    name = forms.CharField(
-        widget=forms.TextInput(attrs={
-            "placeholder": "Name"
-        })
-    )
-
     class Meta:
         model = Project
-        fields = [
-            "name",
-        ]
+        fields = ["name",]
+        widgets = {"name": forms.TextInput(attrs={"placeholder": "Project name",}),}
