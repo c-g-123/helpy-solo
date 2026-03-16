@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 
 class RegisterForm(forms.Form):
@@ -10,9 +11,13 @@ class RegisterForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        username = cleaned_data.get("username")
         password = cleaned_data.get("password")
         repeat_password = cleaned_data.get("repeat_password")
 
+        if username and User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Username already exists.")
+        
         if password and repeat_password and password != repeat_password:
             raise forms.ValidationError("Passwords do not match.")
 
