@@ -70,7 +70,7 @@ def create_tags(users, n=5):
     tags = []
     for i in range(1, n + 1):
         tag, created = Tag.objects.get_or_create(name=f"Tag {i}")
-        tag.tags.set(random.sample(users, k=random.randint(1, len(users))))
+        tag.user_tags.set(random.sample(users, k=random.randint(1, len(users))))
         tags.append(tag)
     return tags
 
