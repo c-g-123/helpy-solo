@@ -20,7 +20,8 @@ class UserSettings(models.Model):
         ('kanban', 'Kanban'),
         ('project', 'Project'),
     ]
-    
+
+
     theme = models.CharField(max_length=10, choices=THEME_CHOICES, default='light')
     default_page = models.CharField(max_length=20, choices=DEFAULT_PAGE_CHOICES, default='agenda')
 
@@ -42,6 +43,12 @@ class Project(models.Model):
 
 
 class Task(models.Model):
+
+    #should this be an enum?
+    class Status(models.Choices):
+        TODO = "ToDo"
+        DONE = "Done"
+        IN_PROGRESS = "In Progress"
 
     project = models.ForeignKey(
         Project,
@@ -67,6 +74,12 @@ class Task(models.Model):
         null=True,
         blank=True,
     )
+
+    status = models.CharField(
+        choices = Status,
+        null = True
+    )
+
     # Should status be a foreign key for a status table? Otherwise, enums will suffice.
     # Should priority be a foreign key for a priority table? Otherwise, enums will suffice.
 
