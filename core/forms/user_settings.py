@@ -15,29 +15,15 @@ class UserSettingsForm(forms.ModelForm):
 
 class UserEmailForm(forms.ModelForm):
 
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            "placeholder": "Email"
-        })
-    )
-
     class Meta:
         model = User
-        fields = [
-            "email",
-        ]
+        fields = ["email",]
+        widgets = {"name": forms.EmailInput(attrs={"placeholder": "Email",}),}
 
 
 class UsernameForm(forms.ModelForm):
 
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={
-            "placeholder": "Username"
-        })
-    )
-
     class Meta:
         model = User
-        fields = [
-            "username",
-        ]
+        fields = ["username",]
+        widgets = {"name": forms.TextInput(attrs={"placeholder": "Username", }), }
