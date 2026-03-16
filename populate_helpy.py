@@ -47,7 +47,12 @@ def create_tasks(projects, max_depth=2, tasks_per_project=5):
             name=task_name,
             description=f"Description for {task_name}",
             set_datetime=datetime.now(),
-            due_datetime=datetime.now() + timedelta(days=random.randint(1, 10))
+            due_datetime=datetime.now() + timedelta(days=random.randint(1, 10)),
+            status=random.choice([
+                Task.Status.TODO,
+                Task.Status.IN_PROGRESS,
+                Task.Status.DONE
+            ])
         )
         all_tasks.append(task)
         # Optionally create subtasks

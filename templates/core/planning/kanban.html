@@ -27,7 +27,9 @@
         <div id = "done" class= "board">
             <h1>Done</h1>
             {%for task in tasks_done%}
+                <div>
                 {% include 'core/task/task-card.html' with task=task %}
+                </div>
             {%endfor%}
 
         </div>
