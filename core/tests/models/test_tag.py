@@ -13,3 +13,10 @@ class TagModelTests(TestCase):
     def test_tag_creation(self):
         self.assertEqual(self.tag.name, 'test_tag')
   
+    def test_tag_user_many_to_many_relationship(self):
+        self.tag.user_tags.add(self.user)
+        self.assertIn(self.user, self.tag.task_tags.all())
+
+    def test_tag_task_many_to_many_relationship(self):
+        self.tag.task_tags.add(self.task)
+        self.assertIn(self.task, self.tag.task_tags.all())
