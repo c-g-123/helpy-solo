@@ -4,14 +4,24 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from core.forms import TaskForm
-from core.models import Task
+from core.models import Task, Project
 
 
 @login_required
 def create_task(request):
     initial = {}
 
+    project_id = request.GET.get('project')
     parent_task_id = request.GET.get('parent_task')
+
+    if project_id:
+        project = get_object_or_404(
+            Project, 
+            id=project_id, 
+            user=request.user
+        )
+        initial['project'] = project
+    
     if parent_task_id:
         parent_task = get_object_or_404(
             Task,
@@ -24,7 +34,18 @@ def create_task(request):
     if request.method == 'GET':
         form = TaskForm(user=request.user, initial=initial)
     elif request.method == 'POST':
-        form = TaskForm(request.POST, user=request.user)
+        post_data = request.POST.copy()
+
+        if parent_task_id:
+            parent_task = get_object_or_404(
+                Task,
+                id=parent_task_id,
+                project__user=request.user
+            )
+            post_data['parent_task'] = str(parent_task.id)
+            post_data['project'] = str(parent_task.project.id)
+
+        form = TaskForm(post_data, user=request.user)
 
         if form.is_valid():
             task = form.save()

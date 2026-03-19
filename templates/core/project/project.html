@@ -20,7 +20,7 @@
 
     <div class="dashboard-header" style="margin-top: 40px;">
         <h2>Tasks</h2>
-        <a href="{% url 'core:create_task' %}" class="btn-save" style="text-decoration: none;">+ Add Task</a>
+        <a href="{% url 'core:create_task' %}?project={{ project.id }}" class="btn-save" style="text-decoration: none;">+ Add Task</a>
     </div>
 
     <ul class="task-grid">
