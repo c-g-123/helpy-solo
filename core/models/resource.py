@@ -10,7 +10,7 @@ def task_resource_upload_path(instance, filename):
 
 class Resource(models.Model):
 
-    MAX_NAME_LENGTH = 50
+    MAX_NAME_LENGTH = 255
 
     task = models.ForeignKey(
         Task,

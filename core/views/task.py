@@ -68,8 +68,23 @@ def add_resource(request, task_id):
         resource = form.save(commit=False)
         resource.task = task
         resource.save()
+        return redirect(reverse('core:task', args=[task.id]))
 
-    return redirect(reverse('core:task', args=[task.id]))
+    subtasks = Task.objects.filter(parent_task=task, project__user=request.user)
+    breadcrumbs = task.get_breadcrumbs()
+    resources = task.resources.all().order_by('-added_date')
+    task_form = TaskForm(instance=task, user=request.user)
+
+    context = {
+        'task': task,
+        'form': task_form,
+        'subtasks': subtasks,
+        'breadcrumbs': breadcrumbs,
+        'resources': resources,
+        'resource_form': form,
+    }
+
+    return render(request, 'core/task/task.html', context)
 
 @login_required
 def view_task(request, task_id):
