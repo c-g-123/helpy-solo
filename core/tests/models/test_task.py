@@ -59,3 +59,14 @@ class TaskModelTests(TestCase):
         task = Task(project=self.project, name='Test', status='INVALID')
         with self.assertRaises(ValidationError):
             task.full_clean()
+
+    def test_task_delete_project_cascades_tasks(self):
+        self.project.delete()
+        self.assertEqual(Task.objects.count(), 0)
+
+    def test_task_delete_parent_cascades_tasks(self):
+        Task.objects.create(project=self.project, parent_task=self.parent_task, name='Child')
+        
+        self.parent_task.delete()
+        
+        self.assertEqual(Task.objects.count(), 0)
