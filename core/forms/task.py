@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Project, Task
+from core.models import Project, Task, Resource
 
 
 class TaskForm(forms.ModelForm):
@@ -45,3 +45,8 @@ class TaskForm(forms.ModelForm):
             self.fields["project"].queryset = Project.objects.filter(user=user)
             self.fields["parent_task"].queryset = Task.objects.filter(project__user=user)
             self.fields["parent_task"].required = False
+
+class ResourceForm(forms.ModelForm):
+    class Meta:
+        model = Resource
+        fields = ['name', 'file', 'link']
