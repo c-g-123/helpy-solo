@@ -3,7 +3,7 @@ from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from core.forms import TaskForm
+from core.forms import TaskForm, ResourceForm
 from core.models import Task, Project
 
 
@@ -55,6 +55,21 @@ def create_task(request):
 
     return render(request, 'core/task/create-task.html', {'form': form})
 
+@login_required
+def add_resource(request, task_id):
+    task = get_object_or_404(Task, id=task_id, project__user=request.user)
+
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    form = ResourceForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        resource = form.save(commit=False)
+        resource.task = task
+        resource.save()
+
+    return redirect(reverse('core:task', args=[task.id]))
 
 @login_required
 def view_task(request, task_id):
@@ -74,11 +89,16 @@ def view_task(request, task_id):
     subtasks = Task.objects.filter(parent_task=task, project__user=request.user)
     breadcrumbs = task.get_breadcrumbs()
 
+    resources = task.resources.all().order_by('-added_date')
+    resource_form = ResourceForm()
+
     context = {
         'task': task,
         'form': form,
         'subtasks': subtasks,
         'breadcrumbs': breadcrumbs,
+        'resources': resources,
+        'resource_form': resource_form,
     }
 
     return render(request, 'core/task/task.html', context)

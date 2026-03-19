@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('task/create/', views.create_task, name='create_task'),
     path('task/<int:task_id>/', views.task, name='task'),
+    path('task/<int:task_id>/resource/add/', views.add_resource, name='add_resource'),
 
     # User
 

@@ -29,7 +29,36 @@
     <p>
         <a href="{% url 'core:create_task' %}?parent_task={{ task.id }}">Add subtask</a>
     </p>
+    
+    <hr>
 
+    <h2>Resources</h2>
+
+    <form method="post" action="{% url 'core:add_resource' task.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ resource_form.as_p }}
+        </div>
+        <button type="submit" class="btn-primary">Add Resource</button>
+    </form>
+
+    {% if resources %}
+        <ul>
+            {% for resource in resources %}
+                <li>
+                    <strong>{{ resource.name }}</strong>
+                    {% if resource.file %}
+                        - <a href="{{ resource.file.url }}" target="_blank">Open file</a>
+                    {% elif resource.link %}
+                        - <a href="{{ resource.link }}" target="_blank">Open link</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No resources yet.</p>
+    {% endif %}
+    
     <hr>
 
     <h2>Subtasks</h2>
