@@ -36,21 +36,21 @@ class TaskModelTests(TestCase):
 
     def test_task_name_max_length(self):
         test_name = 'a' * (Task.MAX_NAME_LENGTH + 1)
-        task = Task(name=test_name)
+        task = Task(project=self.project, name=test_name)
 
         with self.assertRaises(ValidationError):
             task.full_clean()
 
     def test_task_description_max_length(self):
         test_description = 'a' * (Task.MAX_DESCRIPTION_LENGTH + 1)
-        task = Task(description=test_description)
+        task = Task(project=self.project, name='Valid Name', description=test_description)
 
         with self.assertRaises(ValidationError):
             task.full_clean()
 
     def test_task_status_max_length(self):                    #Why do we need MAX_STATUS_LENGTH if we have options to chooe from?
         test_status = 'a' * (Task.MAX_STATUS_LENGTH + 1)
-        task = Task(status=test_status)
+        task = Task(project=self.project, name='Valid Name', status=test_status)
 
         with self.assertRaises(ValidationError):
             task.full_clean()
