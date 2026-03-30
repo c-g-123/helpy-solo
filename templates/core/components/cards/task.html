@@ -1,8 +1,6 @@
-<a class="task-card" href="{% url 'core:task' task.id %}">
-    <strong>
+<div class="card">
+    <a href="{% url 'core:task' task.id %}">
         {{ task.name }}<br/>
-    </strong>
-    <small>
         {{ task.project.name }}<br/>
         {% if task.description %}
             {{ task.description }}<br/>
@@ -10,5 +8,5 @@
         {%  if task.due_datetime %}
             {{ task.due_datetime }}<br/>
         {% endif %}
-    </small>
-</a>
+    </a>
+</div>

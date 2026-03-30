@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -6,20 +8,18 @@ from core.models import Task
 
 @login_required
 def agenda(request):
-    # WARNING Does this actually order by date or does it order alphabetically by the date column?
-    tasks = Task.objects.filter(project_id__user_id=request.user, parent_task__isnull=True).order_by('due_datetime') # The double '__' is for project_id -> user_id -> request.user relationship.
-
-    day_task_data = {}
-
+    tasks = Task.objects.top_level(request.user).order_by('due_datetime')
+    dates = {}
     for task in tasks:
         if task.due_datetime:
-            due_date = task.due_datetime.date().strftime('%A, %d %B %Y')
-            if due_date not in day_task_data:
-                day_task_data[due_date] = {
-                    'due_datetime': task.due_datetime.date(),
+            formatted_due_date = task.due_datetime.date().strftime('%A, %d %B %Y')
+            if formatted_due_date not in dates:
+                dates[formatted_due_date] = {
                     'tasks': [task],
+                    'create_task_query': urlencode({
+                        'due_datetime': task.due_datetime.date().isoformat(),
+                    })
                 }
                 continue
-            day_task_data[due_date]['tasks'].append(task)
-
-    return render(request, 'core/planning/agenda.html', {'day_task_data': day_task_data.items()})
+            dates[formatted_due_date]['tasks'].append(task)
+    return render(request, 'core/planning/agenda.html', {'dates': dates.items()})

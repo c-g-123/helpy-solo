@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,10 +11,11 @@ from core.models import Task, Project, Resource
 
 @login_required
 def create_task(request):
-    initial = {}
+    project_id = request.GET.get('project_id')
+    parent_task_id = request.GET.get('parent_task_id')
+    raw_due_datetime = request.GET.get('due_datetime')
 
-    project_id = request.GET.get('project')
-    parent_task_id = request.GET.get('parent_task')
+    initial_task = {}
 
     if project_id:
         project = get_object_or_404(
@@ -20,19 +23,20 @@ def create_task(request):
             id=project_id, 
             user=request.user
         )
-        initial['project'] = project
-    
+        initial_task['project'] = project
     if parent_task_id:
         parent_task = get_object_or_404(
             Task,
             id=parent_task_id,
             project__user=request.user
         )
-        initial['parent_task'] = parent_task
-        initial['project'] = parent_task.project
+        initial_task['parent_task'] = parent_task
+    if raw_due_datetime:
+        due_datetime = datetime.fromisoformat(raw_due_datetime)
+        initial_task['due_datetime'] = due_datetime
 
     if request.method == 'GET':
-        form = TaskForm(user=request.user, initial=initial)
+        form = TaskForm(user=request.user, initial=initial_task)
     elif request.method == 'POST':
         post_data = request.POST.copy()
 
@@ -117,7 +121,7 @@ def view_task(request, task_id):
     else:
         return HttpResponseNotAllowed(['GET', 'POST']) 
 
-    subtasks = Task.objects.subtasks_of(task)
+    subtasks = Task.objects.for_parent(task, request.user)
     breadcrumbs = task.get_breadcrumbs()
 
     resources = task.resources.all().order_by('-added_date')

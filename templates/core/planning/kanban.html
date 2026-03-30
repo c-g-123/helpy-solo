@@ -13,14 +13,14 @@
         <div id = "todo" class= "board">
             <h1>ToDo</h1>
             {%for task in tasks_todo%}
-                {% include 'core/task/task-card.html' with task=task %}
+                {% include 'core/task/../components/cards/task-card.html' with task=task %}
             {%endfor%}
         </div>
 
         <div id = "in_progress" class= "board">
             <h1>In Progress</h1>
             {%for task in tasks_in_progress%}
-                {% include 'core/task/task-card.html' with task=task %}
+                {% include 'core/task/../components/cards/task-card.html' with task=task %}
             {%endfor%}
         </div>
 
@@ -28,7 +28,7 @@
             <h1>Done</h1>
             {%for task in tasks_done%}
                 <div>
-                {% include 'core/task/task-card.html' with task=task %}
+                {% include 'core/task/../components/cards/task-card.html' with task=task %}
                 </div>
             {%endfor%}
 

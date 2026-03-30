@@ -3,19 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
-    <title>{% block title %}Helpy{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'core/css/layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/css/cards.css' %}">
+    <title>
+        {% block title %}
+            Helpy
+        {% endblock %}
+    </title>
 </head>
 <body>
     {% block navigation_bar %}
         {% include 'core/components/navigation-bars/app.html' %}
     {% endblock %}
-
-    <div class="main-content">
-        {% block body %}
-        {% endblock %}
-    </div>
-
+    {% block body %}
+        No body.
+    {% endblock %}
     {% block scripts %}
     {% endblock %}
 </body>

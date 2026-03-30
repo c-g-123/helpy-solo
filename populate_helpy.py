@@ -8,7 +8,7 @@ import random
 from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
-from core.models import Project, Task, Resource
+from core.models import Project, Task, Resource, UserSettings
 
 
 def create_users(n=5):
@@ -22,6 +22,7 @@ def create_users(n=5):
             user.set_password("pass1234")
             user.save()
         users.append(user)
+        UserSettings.objects.create(user=user)
     return users
 
 
@@ -52,7 +53,7 @@ def create_tasks(projects, max_depth=2, tasks_per_project=5):
             set_datetime=datetime.now(),
             due_datetime=datetime.now() + timedelta(days=random.randint(1, 10)),
             status=random.choice([
-                Task.Status.TODO,
+                Task.Status.TO_DO,
                 Task.Status.IN_PROGRESS,
                 Task.Status.DONE
             ])
@@ -83,6 +84,12 @@ def create_resources(tasks, n=3):
 
 
 if __name__ == "__main__":
+    User.objects.all().delete()
+    UserSettings.objects.all().delete()
+    Project.objects.all().delete()
+    Task.objects.all().delete()
+    Resource.objects.all().delete()
+
     users = create_users()
     projects = create_projects(users)
     tasks = create_tasks(projects)

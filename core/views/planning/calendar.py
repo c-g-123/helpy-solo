@@ -7,12 +7,12 @@ from core.models import Task
 
 @login_required
 def calendar(request):
-    # 1. Get current year and month from URL parameters, default to today
+    # Get current year and month from URL parameters, default to today.
     today = datetime.date.today()
     year = int(request.GET.get('year', today.year))
     month = int(request.GET.get('month', today.month))
 
-    # Handle month wraparound (prev/next navigation)
+    # Handle month wraparound (prev/next navigation).
     if month < 1 or month > 12:
         month = today.month
         year = today.year

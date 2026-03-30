@@ -6,9 +6,9 @@ from core.models import Task
 @login_required
 def kanban(request):
 
-    tasks_todo = Task.objects.filter(status=Task.Status.TODO, project_id__user_id=request.user, parent_task__isnull=True) # Only show top-level tasks in the kanban view. Subtasks will be shown on the task detail page.
-    tasks_in_progress = Task.objects.filter(status=Task.Status.IN_PROGRESS, project_id__user_id=request.user, parent_task__isnull=True)
-    tasks_done= Task.objects.filter(status=Task.Status.DONE, project_id__user_id=request.user, parent_task__isnull=True)
+    tasks_todo = Task.objects.top_level_to_do(request.user)
+    tasks_in_progress = Task.objects.top_level_in_progress(request.user)
+    tasks_done= Task.objects.top_level_done(request.user)
 
     context = {
         'tasks_todo': tasks_todo,

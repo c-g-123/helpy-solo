@@ -1,16 +1,12 @@
 {% extends 'core/base.html' %}
-{% load static %}
-
-{% block title %}Welcome to Helpy{% endblock %}
-
+{% block title %}
+    Helpy
+{% endblock %}
 {% block navigation_bar %}
     {% include 'core/components/navigation-bars/splash.html' %}
 {% endblock %}
-
 {% block body %}
-    <div id="welcome">
-        <h1 style="text-align: center;">Welcome to Helpy</h1>
-        <p style="text-align: center;">Helpy is a personal productivity tool that helps you manage your tasks, projects, and schedule in one place.</p>
-        <p style="text-align: center;">Get started by creating an account or logging in to your existing account.</p>
-    </div>
+    <h1 style="text-align: center;">Welcome to Helpy</h1>
+    <p style="text-align: center;">Helpy is a personal productivity tool that helps you manage your tasks, projects, and schedule in one place.</p>
+    <p style="text-align: center;">Get started by creating an account or logging in to your existing account.</p>
 {% endblock %}

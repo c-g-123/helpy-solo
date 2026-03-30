@@ -1,15 +1,9 @@
 {% load static %}
-
-<div id="nav_bar">
-    <a href="{% url 'core:index' %}">
-        <img src="{% static 'core/images/testcat.jpeg' %}" alt="Helpy Logo" height="50">
-    </a>
-    <a class="left" href="{% url 'core:agenda' %}">Agenda</a>
-    <a class="left" href="{% url 'core:calendar' %}">Calendar</a>
-    <a class="left" href="{% url 'core:kanban' %}">Kanban</a>
-    <a class="left" href="{% url 'core:projects' %}">Projects</a>
-    <div class="nav-buttons" style="margin-left: auto; display: flex; gap: 15px;">
-        <a class="right" href="{% url 'core:settings' %}">Settings</a>
-        <a class="right" href="{% url 'core:logout' %}" style="background-color: #555;">Logout</a>
-    </div>
+<div class="navigation-bar">
+    <a href="{% url 'core:agenda' %}">Agenda</a>
+    <a href="{% url 'core:calendar' %}">Calendar</a>
+    <a href="{% url 'core:kanban' %}">Kanban</a>
+    <a href="{% url 'core:projects' %}">Projects</a>
+    <a class="flex-right" href="{% url 'core:settings' %}">Settings</a>
+    <a href="{% url 'core:logout' %}">Logout</a>
 </div>

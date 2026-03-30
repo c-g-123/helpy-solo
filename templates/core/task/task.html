@@ -104,7 +104,7 @@
 
     {% if subtasks %}
         {% for subtask in subtasks %}
-            {% include "core/task/task-card.html" with task=subtask %}
+            {% include "core/components/cards/task.html" with task=subtask %}
         {% endfor %}
     {% else %}
         <p>No subtasks yet.</p>
