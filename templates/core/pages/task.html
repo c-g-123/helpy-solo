@@ -1,107 +1,27 @@
 {% extends 'core/base.html' %}
-{% block title %}{{ task.name }}{% endblock %}
+{% block title %}
+    {{ task.name }}
+{% endblock %}
 
 {% block body %}
-    <div class="form-container" style="max-width: 600px; margin-top: 40px;">
-        <nav>
-            <a href="{% url 'core:projects' %}">Projects</a> &rsaquo;
-            <a href="{% url 'core:project' task.project.id %}">{{ task.project.name }}</a>
-
-            {% for breadcrumb in breadcrumbs %}
-                &rsaquo;
-                {% if forloop.last %}
-                    <span>{{ breadcrumb.name }}</span>
-                {% else %}
-                    <a href="{% url 'core:task' breadcrumb.id %}">{{ breadcrumb.name }}</a>
-                {% endif %}
-            {% endfor %}
-        </nav>
-        <h1>Edit Task: {{ task.name }}</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
-            </div>
-            <button type="submit" class="btn-primary">Save Changes</button>
-        </form>
-    </div>
-
-    <p>
-        <a href="{% url 'core:create_task' %}?parent_task={{ task.id }}">Add subtask</a>
-    </p>
-    
-    <hr>
-
-    <h2>Resources</h2>
-
-    <form method="post" action="{% url 'core:add_resource' task.id %}" enctype="multipart/form-data">
+    <nav>
+        <a href="{% url 'core:project' task.project.id %}">{{ task.project.name }}</a>
+        {% for breadcrumb in breadcrumbs %}
+            &rsaquo;
+            {% if forloop.last %}
+                <span>{{ breadcrumb.name }}</span>
+            {% else %}
+                <a href="{% url 'core:task' breadcrumb.id %}">{{ breadcrumb.name }}</a>
+            {% endif %}
+        {% endfor %}
+    </nav>
+    <form method="post">
         {% csrf_token %}
-
-        <p>
-            {{ resource_form.name.label_tag }}
-            {{ resource_form.name }}
-            {{ resource_form.name.errors }}
-        </p>
-
-        <p>
-            {{ resource_form.file.label_tag }}
-            {{ resource_form.file }}
-            <button type="button" id="clear-file-btn" style="margin-left: 8px; font-size: 0.85em; padding: 2px 6px;">
-                ✕
-            </button>
-            {{ resource_form.file.errors }}
-        </p>
-
-        <p>
-            {{ resource_form.link.label_tag }}
-            {{ resource_form.link }}
-            {{ resource_form.link.errors }}
-        </p>
-
-        {{ resource_form.non_field_errors }}
-
-        <button type="submit" class="btn-primary">Add Resource</button>
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn-primary">Save Changes</button>
     </form>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const clearFileButton = document.getElementById('clear-file-btn');
-            const fileInput = document.getElementById('id_file');
-
-            if (clearFileButton && fileInput) {
-                clearFileButton.addEventListener('click', function () {
-                    fileInput.value = '';
-                });
-            }
-        });
-    </script>
-
-    {% if resources %}
-        <ul>
-            {% for resource in resources %}
-                <li>
-                    <strong>{{ resource.name }}</strong>
-                    {% if resource.file %}
-                        - <a href="{{ resource.file.url }}" target="_blank">Open file</a>
-                    {% elif resource.link %}
-                        - <a href="{{ resource.link }}" target="_blank">Open link</a>
-                    {% endif %}
-
-                    <form method="post" action="{% url 'core:delete_resource' resource.id %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No resources yet.</p>
-    {% endif %}
-
-    <hr>
-
-    <h2>Subtasks</h2>
-
     {% if subtasks %}
         {% for subtask in subtasks %}
             {% include "core/components/cards/task.html" with task=subtask %}
@@ -109,4 +29,7 @@
     {% else %}
         <p>No subtasks yet.</p>
     {% endif %}
+    <p>
+        <a href="{% url 'core:create_task' %}?parent_task={{ task.id }}">Add subtask</a>
+    </p>
 {% endblock %}

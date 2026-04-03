@@ -57,7 +57,7 @@ def create_task(request):
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    return render(request, 'core/task/../../templates/core/pages/create-task.html', {'form': form})
+    return render(request, 'core/pages/create-task.html', {'form': form})
 
 
 @login_required
@@ -90,4 +90,4 @@ def view_task(request, task_id):
         'resource_form': resource_form,
     }
 
-    return render(request, 'core/task/../../templates/core/pages/task.html', context)
+    return render(request, 'core/pages/task.html', context)
