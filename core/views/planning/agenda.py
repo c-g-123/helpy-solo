@@ -2,14 +2,17 @@ from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views.decorators.http import require_GET
 
 from core.models import Task
 
 
 @login_required
+@require_GET
 def agenda(request):
     tasks = Task.objects.top_level(request.user).order_by('due_datetime')
     dates = {}
+
     for task in tasks:
         if task.due_datetime:
             formatted_due_date = task.due_datetime.date().strftime('%A, %d %B %Y')
@@ -21,5 +24,7 @@ def agenda(request):
                     })
                 }
                 continue
+
             dates[formatted_due_date]['tasks'].append(task)
-    return render(request, 'core/planning/agenda.html', {'dates': dates.items()})
+
+    return render(request, 'core/pages/agenda.html', {'dates': dates.items()})

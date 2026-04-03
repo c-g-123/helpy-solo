@@ -1,9 +1,10 @@
 {% load static %}
 <div class="navigation-bar">
     <a href="{% url 'core:agenda' %}">Agenda</a>
-    <a href="{% url 'core:calendar' %}">Calendar</a>
-    <a href="{% url 'core:kanban' %}">Kanban</a>
     <a href="{% url 'core:projects' %}">Projects</a>
     <a class="flex-right" href="{% url 'core:settings' %}">Settings</a>
-    <a href="{% url 'core:logout' %}">Logout</a>
+    <form method="post" action="{% url 'core:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 </div>

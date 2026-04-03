@@ -1,24 +1,22 @@
 {% extends 'core/base.html' %}
 {% block title %}
-    Register
+    Login
 {% endblock %}
 {% block navigation_bar %}
     {% include 'core/components/navigation-bars/splash.html' %}
 {% endblock %}
 {% block body %}
-    <div class="authentication-box">
-        <h1>Register</h1>
-        <form method="post">
+    <div>
+        <h1>Login</h1>
+        <form method="post" action="{% url 'core:login_submit' %}">
             {% csrf_token %}
             {{ form.username.label_tag }}<br/>
             {{ form.username }}<br/>
             {{ form.password.label_tag }}<br/>
             {{ form.password }}<br/>
-            {{ form.repeat_password.label_tag }}<br/>
-            {{ form.repeat_password }}<br/>
             {{ form.non_field_errors }}<br/>
-            <button type="submit">Register</button>
+            <button type="submit">Login</button>
         </form>
-        <p>Already have an account? <a class="link" href="{% url 'core:login' %}">Log in</a>.</p>
+        <p>Don't have an account? <a class="link" href="{% url 'core:register' %}">Register here</a>.</p>
     </div>
 {% endblock %}

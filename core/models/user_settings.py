@@ -34,7 +34,8 @@ class UserSettings(models.Model):
     )
 
     def get_default_board_url(self):
-        return reverse(f"core:{self.default_board.lower()}")
+        # return reverse(f"core:{self.default_board.lower()}")
+        return reverse('core:agenda')  # TEMPORARY!
 
     def __str__(self):
         return f"{self.user.username}'s settings"
