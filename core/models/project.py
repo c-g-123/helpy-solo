@@ -18,5 +18,16 @@ class Project(models.Model):
     name = models.CharField(max_length=MAX_NAME_LENGTH)
     objects = ProjectQuerySet.as_manager()
 
+    def get_breadcrumbs(self):
+        breadcrumbs = []
+        current_project = self
+
+        while current_project is not None:
+            breadcrumbs.append(current_project)
+            current_project = current_project.parent_project
+
+        breadcrumbs.reverse()
+        return breadcrumbs
+
     def __str__(self):
         return self.name

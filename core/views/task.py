@@ -7,6 +7,8 @@ from django.views.decorators.http import require_GET, require_POST
 from core.forms import TaskForm
 from core.models import Task, Project
 
+from .utility import get_link_chain
+
 
 @login_required
 @require_GET
@@ -34,7 +36,7 @@ def task(request, task_id):
 
     context = {
         'task': task,
-        'breadcrumbs': task.get_breadcrumbs(),
+        'link_chain': get_link_chain(task),
         'form': TaskForm(user=request.user, instance=task),
         'subtasks': Task.objects.for_parent(task, request.user)
     }

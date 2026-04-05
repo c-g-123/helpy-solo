@@ -5,6 +5,8 @@ from django.views.decorators.http import require_GET, require_POST
 from core.forms import ProjectForm
 from core.models import Project, Task
 
+from .utility import get_link_chain
+
 
 @login_required
 @require_GET
@@ -33,6 +35,7 @@ def project(request, project_id):
     project = get_object_or_404(Project.objects.for_user(request.user), id=project_id)
     context = {
         'project': project,
+        'link_chain': get_link_chain(project),
         'form': ProjectForm(user=request.user, instance=project),
         'subprojects': Project.objects.for_parent(project, request.user),
         'tasks': Task.objects.top_level(request.user).for_project(project, request.user)

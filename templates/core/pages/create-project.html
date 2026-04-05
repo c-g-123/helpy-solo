@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Create Project</h1>
-    <form method="post" action="{% url 'core:create_project_submit' %}">
+    <form action="{% url 'core:create_project_submit' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Create</button>

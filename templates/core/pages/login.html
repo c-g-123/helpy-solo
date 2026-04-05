@@ -7,7 +7,7 @@
 {% endblock %}
 {% block body %}
     <h1>Login</h1>
-    <form method="post" action="{% url 'core:login_submit' %}">
+    <form action="{% url 'core:login_submit' %}" method="post">
         {% csrf_token %}
         {{ form.username.label_tag }}<br/>
         {{ form.username }}<br/>
