@@ -18,7 +18,7 @@ def create_task(request):
 @login_required
 @require_POST
 def create_task_submit(request):
-    form = TaskForm(request.POST, user=request.user)
+    form = TaskForm(user=request.user, data=request.POST)
 
     if form.is_valid():
         task = form.save()
@@ -47,7 +47,7 @@ def task(request, task_id):
 def edit_task(request, task_id):
     task = get_object_or_404(Task.objects.for_user(request.user), id=task_id)
 
-    form = TaskForm(request.POST, user=request.user, instance=task)
+    form = TaskForm(user=request.user, instance=task, data=request.POST)
 
     if form.is_valid():
         form.save()

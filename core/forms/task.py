@@ -32,9 +32,16 @@ class TaskForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
+        self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-        if user:
-            self.fields["project"].queryset = Project.objects.for_user(user)
-            self.fields["parent_task"].queryset = Task.objects.for_user(user)  # TODO Change this to filter for the project's tasks?
-            self.fields["parent_task"].required = False
+        if self.user:
+            self.fields["project"].queryset = Project.objects.for_user(self.user)
+            self.fields["parent_task"].queryset = Task.objects.for_user(self.user)  # TODO Change this to filter for the project's tasks?
+
+    def clean_project(self):
+        project = self.cleaned_data["project"]
+
+        if not Project.objects.for_user(self.user).filter(pk=project.pk).exists():
+            raise forms.ValidationError("Invalid project.")
+
+        return project

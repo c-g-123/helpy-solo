@@ -9,6 +9,12 @@ class Project(models.Model):
     MAX_NAME_LENGTH = 30
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    parent_project = models.ForeignKey(
+    'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     name = models.CharField(max_length=MAX_NAME_LENGTH)
     objects = ProjectQuerySet.as_manager()
 

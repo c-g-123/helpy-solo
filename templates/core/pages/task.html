@@ -15,11 +15,14 @@
             {% endif %}
         {% endfor %}
     </nav>
+    <h1>{{ task.name }}</h1>
     <form method="post" action="{% url 'core:edit_task' task.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
     </form>
+    <h1>Subtasks</h1>
+    <a href="{% url 'core:create_task' %}?project_id={{ task.project.id }}&parent_task_id={{ task.id }}">Create subtask</a>
     {% if subtasks %}
         {% for subtask in subtasks %}
             {% include "core/components/cards/task.html" with task=subtask %}
@@ -27,9 +30,6 @@
     {% else %}
         <p>No subtasks yet.</p>
     {% endif %}
-    <p>
-        <a href="{% url 'core:create_task' %}?project_id={{ task.project.id }}&parent_task_id={{ task.id }}">Add subtask</a>
-    </p>
 
     <form method="post" action="{% url 'core:delete_task' task.id %}">
         {% csrf_token %}
