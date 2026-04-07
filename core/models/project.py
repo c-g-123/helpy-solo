@@ -25,9 +25,15 @@ class Project(models.Model):
     objects = ProjectQuerySet.as_manager()
 
     def clean(self):
-        if self.user_id and self.parent_project_id:  # _id fields avoid unnecessary DB queries and crashes.
+        if self.parent_project_id:  # _id fields avoid unnecessary DB queries and crashes.
             if self.user_id != self.parent_project.user_id:
                 raise ValidationError('A child project must belong to the same user as its parent project.')
+            if self.pk:  # The 'if self.pk' guard is important; a newly created object has no pk yet so it can't be its own ancestor. Skipping the walk avoids a pointless traversal.
+                ancestor = self.parent_project
+                while ancestor is not None:
+                    if ancestor.pk == self.pk:
+                        raise ValidationError('A project cannot be its own ancestor.')
+                    ancestor = ancestor.parent_project
 
     def save(self, *args, **kwargs):
         self.full_clean()

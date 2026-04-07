@@ -52,7 +52,13 @@ def edit_project(request, project_id):
         form.save()
         return redirect('core:project', project_id=project.id)
 
-    return render(request, 'core/pages/project.html', {'form': form})
+    context = {
+        'project': project,
+        'link_chain': get_link_chain(project),
+        'form': form,
+    }
+
+    return render(request, 'core/pages/project.html', context)
 
 
 @login_required

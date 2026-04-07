@@ -58,9 +58,6 @@ class Task(models.Model):
     objects = TaskQuerySet.as_manager()
 
     def clean(self):
-        if not self.user_id:  # _id fields avoid unnecessary DB queries and crashes.
-            raise ValidationError('A task must have an associated user.')
-
         if self.project_id:
             if self.user_id != self.project.user_id:
                 raise ValidationError('A task must have the same user as its parent project.')
@@ -70,6 +67,12 @@ class Task(models.Model):
                 raise ValidationError('A child task must have the same user as its parent task.')
             if self.project_id != self.parent_task.project_id:
                 raise ValidationError('A child task must have the same project as its parent task.')
+            if self.pk:  # The 'if self.pk' guard is important; a newly created object has no pk yet so it can't be its own ancestor. Skipping the walk avoids a pointless traversal.
+                ancestor = self.parent_task
+                while ancestor is not None:
+                    if ancestor.pk == self.pk:
+                        raise ValidationError('A task cannot be its own ancestor.')
+                    ancestor = ancestor.parent_task
 
         if self.recurrence_source_id:
             if self.user_id != self.recurrence_source.user_id:
