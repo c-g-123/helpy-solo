@@ -41,9 +41,9 @@ class Project(models.Model):
 
     def get_breadcrumbs(self):
         breadcrumbs = []
-        current_project = self
 
-        while current_project is not None:
+        current_project = self
+        while current_project:
             breadcrumbs.append(current_project)
             current_project = current_project.parent_project
 

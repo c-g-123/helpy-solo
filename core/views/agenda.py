@@ -1,10 +1,9 @@
 from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
-
-from core.models import Task
 
 
 @login_required

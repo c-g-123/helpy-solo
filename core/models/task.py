@@ -88,14 +88,16 @@ class Task(models.Model):
         breadcrumbs = []
         current_task = self
 
-        while current_task.parent_task:
+        while current_task:
             breadcrumbs.append(current_task)
             current_task = current_task.parent_task
 
-        current_project = current_task.project
-        while current_project:
-            breadcrumbs.append(current_project)
-            current_project = current_project.parent_project
+        root_task = breadcrumbs[-1]
+        if root_task.project:
+            current_project = root_task.project
+            while current_project:
+                breadcrumbs.append(current_project)
+                current_project = current_project.parent_project
 
         breadcrumbs.reverse()
         return breadcrumbs

@@ -54,8 +54,10 @@ def create_tasks(users, projects, max_depth=2, tasks_per_project=5):
     counter = 0
 
     for user in users:
+        user_projects = [p for p in projects if p.user_id == user.id]
 
-        for project in projects:
+        for project in user_projects:
+            # -------- Root tasks --------
             level_tasks = []
 
             for _ in range(tasks_per_project):
@@ -75,8 +77,17 @@ def create_tasks(users, projects, max_depth=2, tasks_per_project=5):
                 level_tasks.append(task)
 
             Task.objects.bulk_create(level_tasks)
-            created_tasks = list(Task.objects.filter(project=project, parent_task__isnull=True))
 
+            # Re-fetch ONLY this user's root tasks for this project
+            created_tasks = list(
+                Task.objects.filter(
+                    user=user,
+                    project=project,
+                    parent_task__isnull=True
+                )
+            )
+
+            # -------- Child tasks --------
             for depth in range(1, max_depth + 1):
                 next_level = []
 
@@ -102,7 +113,9 @@ def create_tasks(users, projects, max_depth=2, tasks_per_project=5):
                     break
 
                 Task.objects.bulk_create(next_level)
-                created_tasks = next_level  # move down a level
+
+                # Move down one level, still scoped correctly
+                created_tasks = next_level
                 all_tasks.extend(next_level)
 
     all_tasks = list(Task.objects.all())

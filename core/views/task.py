@@ -5,10 +5,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 
 from core.forms import TaskForm
-from core.models import Task, Project
 
 from .utility import get_link_chain
 from ..forms.recurrence_rule import RecurrenceRuleForm
+from ..services.recurrence import RecurrenceService
 
 
 @login_required
@@ -82,6 +82,7 @@ def edit_task(request, task_id):
             'recurrence_rule': recurrence_form,
         }
     }
+
     return render(request, 'core/pages/task.html', context)
 
 
