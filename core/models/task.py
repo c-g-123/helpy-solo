@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from .project import Project
@@ -16,9 +18,16 @@ class Task(models.Model):
         IN_PROGRESS = "IN_PROGRESS", "In-progress"
         DONE = 'DONE', 'Done'
 
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tasks',
+    )
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name='tasks',
     )
     parent_task = models.ForeignKey(
@@ -36,8 +45,7 @@ class Task(models.Model):
         related_name='instances'
     )
     name = models.CharField(max_length=MAX_NAME_LENGTH)
-    description = models.CharField(
-        max_length=MAX_DESCRIPTION_LENGTH,
+    description = models.TextField(
         null=True,
         blank=True,
     )
@@ -48,6 +56,30 @@ class Task(models.Model):
         default=Status.TO_DO,
     )
     objects = TaskQuerySet.as_manager()
+
+    def clean(self):
+        if not self.user_id:  # _id fields avoid unnecessary DB queries and crashes.
+            raise ValidationError('A task must have an associated user.')
+
+        if self.project_id:
+            if self.user_id != self.project.user_id:
+                raise ValidationError('A task must have the same user as its parent project.')
+
+        if self.parent_task_id:
+            if self.user_id != self.parent_task.user_id:
+                raise ValidationError('A child task must have the same user as its parent task.')
+            if self.project_id != self.parent_task.project_id:
+                raise ValidationError('A child task must have the same project as its parent task.')
+
+        if self.recurrence_source_id:
+            if self.user_id != self.recurrence_source.user_id:
+                raise ValidationError('A task must have the same user as its recurrence source.')
+            if self.project_id != self.recurrence_source.project_id:
+                raise ValidationError('A task must have the same project as its recurrence source.')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def get_breadcrumbs(self):
         breadcrumbs = []

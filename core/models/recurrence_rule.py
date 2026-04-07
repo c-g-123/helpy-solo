@@ -16,9 +16,7 @@ class RecurrenceRule(models.Model):
 
     base_task = models.OneToOneField(
         Task,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='recurrence_rule',
     )
     interval         = models.PositiveIntegerField(default=DEFAULT_INTERVAL)

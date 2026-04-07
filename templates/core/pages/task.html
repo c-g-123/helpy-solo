@@ -12,7 +12,31 @@
     <h1>{{ task.name }}</h1>
     <form method="post" action="{% url 'core:edit_task' task.id %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ forms.task.as_p }}
+        <label>
+            Recur:
+            <input type="checkbox" name="recurrence_enabled" id="recurrence_enabled"
+                   {% if task.recurrence_rule %}checked{% endif %}>
+        </label>
+        <div id="recurrence-fields" {% if not task.recurrence_rule %}style="display:none"{% endif %}>
+            {{ forms.recurrence_rule.as_p }}
+        </div>
+
+        <script>
+            const checkbox = document.getElementById('recurrence_enabled');
+            const fields = document.getElementById('recurrence-fields');
+
+            function toggleRecurrence() {
+                const enabled = checkbox.checked;
+                fields.style.display = enabled ? '' : 'none';
+                fields.querySelectorAll('input, select, textarea').forEach(el => {
+                    el.disabled = !enabled;
+                });
+            }
+
+            checkbox.addEventListener('change', toggleRecurrence);
+            toggleRecurrence();
+        </script>
         <button type="submit">Save</button>
     </form>
     <h1>Child tasks</h1>

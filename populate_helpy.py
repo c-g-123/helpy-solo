@@ -48,60 +48,62 @@ def create_projects(users, n=3):
     return list(Project.objects.all())
 
 
-def create_tasks(projects, max_depth=2, tasks_per_project=5):
+def create_tasks(users, projects, max_depth=2, tasks_per_project=5):
     all_tasks = []
     now = datetime.now()
     counter = 0
 
-    for project in projects:
-        level_tasks = []
+    for user in users:
 
-        for _ in range(tasks_per_project):
-            counter += 1
-            task = Task(
-                project=project,
-                name=f"Task {counter}",
-                description=f"Description for Task {counter}",
-                set_datetime=now,
-                due_datetime=now + timedelta(days=random.randint(1, 10)),
-                status=random.choice([
-                    Task.Status.TO_DO,
-                    Task.Status.IN_PROGRESS,
-                    Task.Status.DONE
-                ])
-            )
-            level_tasks.append(task)
+        for project in projects:
+            level_tasks = []
 
-        Task.objects.bulk_create(level_tasks)
-        created_tasks = list(Task.objects.filter(project=project, parent_task__isnull=True))
+            for _ in range(tasks_per_project):
+                counter += 1
+                task = Task(
+                    user=user,
+                    project=project,
+                    name=f"Task {counter}",
+                    description=f"Description for Task {counter}",
+                    due_datetime=now + timedelta(days=random.randint(1, 10)),
+                    status=random.choice([
+                        Task.Status.TO_DO,
+                        Task.Status.IN_PROGRESS,
+                        Task.Status.DONE
+                    ])
+                )
+                level_tasks.append(task)
 
-        for depth in range(1, max_depth + 1):
-            next_level = []
+            Task.objects.bulk_create(level_tasks)
+            created_tasks = list(Task.objects.filter(project=project, parent_task__isnull=True))
 
-            for parent in created_tasks:
-                for _ in range(random.randint(0, 2)):
-                    counter += 1
-                    child = Task(
-                        project=project,
-                        parent_task=parent,
-                        name=f"Task {counter}",
-                        description=f"Description for Task {counter}",
-                        set_datetime=now,
-                        due_datetime=now + timedelta(days=random.randint(1, 10)),
-                        status=random.choice([
-                            Task.Status.TO_DO,
-                            Task.Status.IN_PROGRESS,
-                            Task.Status.DONE
-                        ])
-                    )
-                    next_level.append(child)
+            for depth in range(1, max_depth + 1):
+                next_level = []
 
-            if not next_level:
-                break
+                for parent in created_tasks:
+                    for _ in range(random.randint(0, 2)):
+                        counter += 1
+                        child = Task(
+                            user=user,
+                            project=project,
+                            parent_task=parent,
+                            name=f"Task {counter}",
+                            description=f"Description for Task {counter}",
+                            due_datetime=now + timedelta(days=random.randint(1, 10)),
+                            status=random.choice([
+                                Task.Status.TO_DO,
+                                Task.Status.IN_PROGRESS,
+                                Task.Status.DONE
+                            ])
+                        )
+                        next_level.append(child)
 
-            Task.objects.bulk_create(next_level)
-            created_tasks = next_level  # move down a level
-            all_tasks.extend(next_level)
+                if not next_level:
+                    break
+
+                Task.objects.bulk_create(next_level)
+                created_tasks = next_level  # move down a level
+                all_tasks.extend(next_level)
 
     all_tasks = list(Task.objects.all())
     return all_tasks
@@ -112,7 +114,7 @@ if __name__ == "__main__":
 
     users = create_users()
     projects = create_projects(users)
-    tasks = create_tasks(projects)
+    tasks = create_tasks(users, projects)
 
     print("Populated database with:")
     print(f"- {len(users)} users")

@@ -7,6 +7,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = [
+            'user',
             'parent_project',
             "name",
         ]
@@ -18,7 +19,9 @@ class ProjectForm(forms.ModelForm):
         self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields["parent_project"].queryset = Project.objects.for_user(self.user)  # TODO This NEEDS to check for circular references for the parent project.
+            self.fields['user'].disabled = True
+            self.fields['user'].initial = self.user
+            self.fields["parent_project"].queryset = Project.objects.filter(user=self.user)  # TODO This NEEDS to check for circular references for the parent project.
 
     def clean_parent_project(self):
         parent_project = self.cleaned_data["parent_project"]
@@ -27,6 +30,6 @@ class ProjectForm(forms.ModelForm):
             return None
 
         try:
-            return Project.objects.for_user(self.user).get(pk=parent_project.pk)
+            return Project.objects.filter(user=self.user).get(pk=parent_project.pk)
         except Project.DoesNotExist:
             raise forms.ValidationError("Invalid parent project.")

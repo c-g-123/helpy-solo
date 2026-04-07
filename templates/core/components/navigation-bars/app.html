@@ -17,8 +17,10 @@
     <div class="navigation-bar-item dropdown-trigger">
         <a href="{% url 'core:projects' %}">Projects</a>
         <div class="dropdown">
-            {% for project in root_projects %}
-                <a class="dropdown-item" href="{% url 'core:project' project.id %}">{{ project.name }}</a>
+            {% for project in request.user.projects.all %}
+                {% if not project.parent_project %}
+                    <a class="dropdown-item" href="{% url 'core:project' project.id %}">{{ project.name }}</a>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

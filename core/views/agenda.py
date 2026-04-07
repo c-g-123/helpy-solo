@@ -10,7 +10,7 @@ from core.models import Task
 @login_required
 @require_GET
 def agenda(request):
-    tasks = Task.objects.top_level(request.user).order_by('due_datetime')
+    tasks = request.user.tasks.filter(parent_task=None).order_by('due_datetime')
     dates = {}
 
     for task in tasks:

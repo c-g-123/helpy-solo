@@ -12,8 +12,10 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [
+            'user',
             "project",
             "parent_task",
+            'recurrence_source',
             "name",
             "description",
             "due_datetime",
@@ -33,13 +35,17 @@ class TaskForm(forms.ModelForm):
         self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields["project"].queryset = Project.objects.for_user(self.user)
-            self.fields["parent_task"].queryset = Task.objects.for_user(self.user)  # TODO Change this to filter for the project's tasks?
+            self.fields["user"].disabled = True
+            self.fields['user'].initial = self.user
+            self.fields["project"].queryset = Project.objects.filter(user=self.user)
+            self.fields["parent_task"].queryset = Task.objects.filter(user=self.user)  # TODO Filter this to be tasks from the same project only?
+            self.fields['recurrence_source'].disabled = True
 
-    def clean_project(self):
-        project = self.cleaned_data["project"]
+    def save(self, commit=True):
+        task = super().save(commit=False)
+        task.user = self.user
 
-        if not Project.objects.for_user(self.user).filter(pk=project.pk).exists():
-            raise forms.ValidationError("Invalid project.")
+        if commit:
+            task.save()
 
-        return project
+        return task
