@@ -1,45 +1,43 @@
 {% load static %}
-<div class="header" style="width: 100%;">
-    <div class="box">
-        <nav class="navbar">
-            <div class="nav-item">
-                <img src="{% static 'core/images/cat.jpg' %}" alt="Helpy logo"/>
-                <div class="dropdown">
-                    <a href="{% url 'core:index' %}">Splash</a>
-                    <a>About</a>
-                    <a>FAQ</a>
-                </div>
+<div class="box">
+    <nav class="navbar">
+        <div class="nav-item">
+            <img src="{% static 'core/images/cat.jpg' %}" alt="Helpy logo" height="50px"/>
+            <div class="dropdown">
+                <a href="{% url 'core:index' %}">Splash</a>
+                <a>About</a>
+                <a>FAQ</a>
             </div>
-            <div class="nav-item">
-                <a href="{{ request.user.user_settings.get_default_board_url }}">Planning</a>
-                <div class="dropdown">
-                    <a href="{% url 'core:agenda' %}">Agenda</a>
-                </div>
+        </div>
+        <div class="nav-item">
+            <a href="{{ request.user.user_settings.get_default_board_url }}">Planning</a>
+            <div class="dropdown">
+                <a href="{% url 'core:agenda' %}">Agenda</a>
             </div>
-            <div class="nav-item">
-                <a href="{% url 'core:projects' %}">Projects</a>
-                <div class="dropdown">
-                    {% for project in request.user.projects.all %}
-                        {% if not project.parent_project %}
-                            <a href="{% url 'core:project' project.id %}">{{ project.name }}</a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+        </div>
+        <div class="nav-item">
+            <a href="{% url 'core:projects' %}">Projects</a>
+            <div class="dropdown">
+                {% for project in request.user.projects.all %}
+                    {% if not project.parent_project %}
+                        <a href="{% url 'core:project' project.id %}">{{ project.name }}</a>
+                    {% endif %}
+                {% endfor %}
             </div>
-            <div class="nav-item flex-right">
-                <p>Search bar</p>
+        </div>
+        <div class="nav-item flex-right">
+            <p>Search bar</p>
+        </div>
+        <div class="nav-item">
+            <a>User</a>
+            <div class="dropdown">
+                <a class="dropdown-item">Account</a>
+                <a class="dropdown-item">Settings</a>
+                <form action="{% url 'core:logout' %}" method="post" onsubmit="return confirm('Are you sure you want to log out?')">
+                    {% csrf_token %}
+                    <button class="dropdown-item" type="submit">Logout</button>
+                </form>
             </div>
-            <div class="nav-item">
-                <a class="nav-link">User</a>
-                <div class="dropdown">
-                    <a class="dropdown-item">Account</a>
-                    <a class="dropdown-item">Settings</a>
-                    <form action="{% url 'core:logout' %}" method="post" onsubmit="return confirm('Are you sure you want to log out?')">
-                        {% csrf_token %}
-                        <button class="dropdown-item" type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
 </div>

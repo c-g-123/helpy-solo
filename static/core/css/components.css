@@ -1,104 +1,28 @@
-
-/* --- Header --- */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-.box {
-    margin: 1ch;
-    border: 2px solid var(--primary);
-    background-color: var(--background);
-}
-
-.focusable {
-    margin: 2px;
-}
-
-.focusable:hover {
-    outline: 2px solid var(--primary);
+.status-bar {
+    padding: 1ch;
+    display: flex;
+    justify-content: space-between;
 }
 
 .navbar {
-    padding: 0 5ch;
+    padding: 1ch;
     display: flex;
-    align-items: center;
-    gap: 5ch;
-}
-
-.nav-item {
-    position: relative;
-}
-
-.nav-link {
-    display: block;
-    padding: 10px;
-    cursor: pointer;
-}
-
-/* Make image scale nicely */
-.nav-link img,
-.nav-item img {
-    height: 50px;
-    display: block;
-}
-
-/* --- Dropdown --- */
-.dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: var(--primary);
-    min-width: 200px;
-    display: none;
-    flex-direction: column;
-}
-
-/* Dropdown links */
-.dropdown a {
-    padding: 10px 20px;
-    text-decoration: none;
-    color: var(--primary-surrounded-text);
-}
-
-/* Show dropdown on hover */
-.nav-item:hover .dropdown {
-    display: flex;
-}
-
-/* --- Hover styles --- */
-.dropdown a:hover {
-    background-color: var(--primary-hover);
-}
-
-
-
-
-.flex-right {
-    margin-left: auto;
-}
-
-.agenda-date {
-    padding: 15px;
-    border-bottom: 1px solid var(--border);
+    justify-content: center;
+    gap: 30ch;
 }
 
 .card {
-    transition: 0.2s;
+    transition: 5s;
+
+    background-color: blue;
 }
 
-.card:hover {
-    background-color: var(--background-hover);
-}
+    .card a {
+        padding: 15px;
+        display: block;
+        text-decoration: none;
+    }
 
-.card a {
-    padding: 15px;
-    display: block;
-    text-decoration: none;
-}
-
-.card a:visited {
-    color: var(--text);
-}
+        .card a:visited {
+            color: var(--text);
+        }

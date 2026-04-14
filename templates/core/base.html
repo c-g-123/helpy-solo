@@ -12,15 +12,26 @@
         </title>
     </head>
     <body>
-        <div class="box">
-            {% block navigation_bar %}
-                {% include 'core/components/navigation-bars/app.html' %}
-            {% endblock %}
-            {% block body %}
-                No body.
-            {% endblock %}
-            {% block scripts %}
-            {% endblock %}
+        <div class="spaced exterior-box">
+            <div class="spaced status-bar interior-box">
+                <a>Helpy</a>
+                <a>20/10/2004 10:00AM</a>
+                <a><<< Loading >>> USER</a>
+            </div>
+            <div class="spaced exterior-box">
+                <fieldset class="spaced interior-box navbar">
+                    <legend>Boards</legend>
+                    <a href="{% url 'core:projects'%}">Project</a>
+                    <a href="{% url 'core:agenda'%}">Agenda</a>
+                    <a>Calendar</a>
+                    <a>Kanban</a>
+                </fieldset>
+                <div class="spaced interior-box">
+                    {% block body %}
+                        No body.
+                    {% endblock %}
+                </div>
+            </div>
         </div>
     </body>
 </html>

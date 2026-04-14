@@ -2,20 +2,35 @@
 {% load static %}
 
 {% block title %}
-    Agenda
+    Planning
 {% endblock %}
 
 {% block body %}
-    <h1>Agenda</h1>
+    <div class="box" style="border-top: 0;">
+        <div class="navbar">
+            <a>List</a>
+            <a>Agenda</a>
+            <a>Calendar</a>
+            <a>Kanban</a>
+        </div>
+    </div>
+    <div class="box" style="border-top: 0;">
+        <div class="navbar">
+            <a>Projects</a>
+            <a>All</a>
+            <a>None</a>
+            <a>...</a>
+        </div>
+    </div>
     <a href="{% url 'core:create_task' %}">Create task</a>
     {% if dates %}
         {% for formatted_date, date_data in dates %}
-            <div class="agenda-date">
+            <div>
                 {{ formatted_date }}
                 {% for task in date_data.tasks %}
                     {% include 'core/components/cards/task.html' with task=task %}
                 {% endfor %}
-                <div class="card focusable">
+                <div class="card">
                     <a href="{% url 'core:create_task' %}?{{ date_data.create_task_query }}">Create task</a>
                 </div>
             </div>

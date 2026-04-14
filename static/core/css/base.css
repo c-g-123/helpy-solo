@@ -1,19 +1,8 @@
 :root {
     --background: #000000;
-    --background-hover: #050505;
-    --text: orange;
-    --primary: #fdbe02;
-    --primary-focus: #ffbe02;
-    --primary-surrounded-text: #000000;
-    --border: #000000;
-    --shadow: #000000;
-    --danger: #d32f2f;          
-    --danger-hover: #b71c1c;
-    --danger-surrounded-text: #ffffff;
-    --dropdown: #f0f0f0;
-    --dropdown-hover: #e0e0e0;
-
-    --header-height: 70px;
+    --primary: rgb(255, 255, 255);
+    --primary-glow: rgba(255, 255, 255, 0.5);
+    --primary-dim: rgb(30, 30, 30);
 
     background-color: var(--background);
 }
@@ -26,12 +15,23 @@
 }
 
 body {
+    min-width: 100vh;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: var(--background);
-    letter-spacing: 0.02em;
-    line-height: 1.4;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--text);
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+    font-family: 'DejaVu Sans Mono', monospace;
+    color: var(--primary);
+    text-shadow: 0 0 2px var(--primary-glow);
+}
+
+.spaced {
+    margin: 1ch;
+}
+
+.interior-box {
+    border: 1px solid var(--primary);
+}
+
+.exterior-box {
+    border: 2px solid var(--primary-dim);
 }

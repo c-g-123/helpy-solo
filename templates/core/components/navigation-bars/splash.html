@@ -1,6 +1,16 @@
 {% load static %}
-<nav class="navigation-bar">
-    <a href="{% url 'core:index' %}">Logo</a>
-    <a class="flex-right" href="{% url 'core:login' %}">Login</a>
-    <a href="{% url 'core:register' %}">Register</a>
-</nav>
+<div class="header">
+    <div class="box">
+        <nav class="navbar">
+            <div class="nav-item">
+                <a href="{% url 'core:index' %}">Logo</a>
+            </div>
+            <div class="nav-item flex-right">
+                <a href="{% url 'core:login' %}">Login</a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'core:register' %}">Register</a>
+            </div>
+        </nav>
+    </div>
+</div>
